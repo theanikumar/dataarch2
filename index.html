@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DataAArch · Sign in</title>
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(145deg, #f0f6fe 0%, #e9f0fa 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            color: #1e293b;
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 1100px;
+            display: flex;
+            border-radius: 48px;
+            background: rgba(255,255,255,0.6);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: 0 30px 60px -20px rgba(0,40,80,0.3);
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.7);
+        }
+
+        /* LEFT BRAND PANEL */
+        .brand-panel {
+            flex: 1;
+            background: linear-gradient(150deg, #0b2b4f, #123b66);
+            padding: 3rem 2.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            color: white;
+        }
+
+        .brand-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .brand-icon {
+            font-size: 3rem;
+            color: #7ab7ef;
+        }
+
+        .brand-name h1 {
+            font-weight: 700;
+            font-size: 2.2rem;
+            letter-spacing: -1px;
+            line-height: 1.1;
+        }
+
+        .brand-name span {
+            font-size: 0.8rem;
+            opacity: 0.8;
+            font-weight: 400;
+            display: block;
+            color: #b6d6f0;
+        }
+
+        .brand-tagline {
+            margin-top: 3rem;
+        }
+
+        .brand-tagline p {
+            font-size: 1.5rem;
+            font-weight: 500;
+            line-height: 1.4;
+            max-width: 280px;
+        }
+
+        .brand-features {
+            list-style: none;
+            margin-top: 2.5rem;
+        }
+
+        .brand-features li {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 1.2rem;
+            font-weight: 400;
+            color: #d4e3fc;
+        }
+
+        .brand-features i {
+            color: #7ab7ef;
+            font-size: 1.2rem;
+            width: 24px;
+        }
+
+        .brand-footer {
+            font-size: 0.8rem;
+            opacity: 0.7;
+            margin-top: 2rem;
+        }
+
+        /* RIGHT FORM PANEL */
+        .form-panel {
+            flex: 1;
+            background: white;
+            padding: 3rem 2.8rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .form-header {
+            margin-bottom: 2.5rem;
+        }
+
+        .form-header h2 {
+            font-weight: 700;
+            font-size: 2rem;
+            color: #0b2b4f;
+        }
+
+        .form-header p {
+            color: #64748b;
+            margin-top: 0.4rem;
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .input-label {
+            display: block;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: #1e3a5f;
+            margin-bottom: 0.4rem;
+            letter-spacing: 0.3px;
+        }
+
+        .input-field {
+            display: flex;
+            align-items: center;
+            background: #f8fcff;
+            border: 1px solid #dde7f0;
+            border-radius: 18px;
+            padding: 0.7rem 1.2rem;
+            transition: all 0.2s;
+        }
+
+        .input-field:focus-within {
+            border-color: #1e4a7a;
+            box-shadow: 0 0 0 3px rgba(18, 59, 102, 0.15);
+            background: white;
+        }
+
+        .input-field i {
+            color: #7b98b3;
+            font-size: 1.2rem;
+            margin-right: 12px;
+            width: 20px;
+        }
+
+        .input-field input {
+            border: none;
+            background: transparent;
+            width: 100%;
+            font-size: 1rem;
+            font-weight: 500;
+            outline: none;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .input-field input::placeholder {
+            color: #a6b9ce;
+            font-weight: 400;
+        }
+
+        .password-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 1rem 0 2rem;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            color: #334e77;
+            cursor: pointer;
+        }
+
+        .remember-me input {
+            accent-color: #1e4a7a;
+            width: 16px;
+            height: 16px;
+        }
+
+        .forgot-link {
+            color: #1e4a7a;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .forgot-link:hover {
+            text-decoration: underline;
+        }
+
+        .login-btn {
+            background: #0b2b4f;
+            background: linear-gradient(135deg, #0b2b4f, #1e4a7a);
+            color: white;
+            border: none;
+            padding: 1rem;
+            border-radius: 40px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: transform 0.15s, box-shadow 0.2s;
+            box-shadow: 0 15px 25px -8px rgba(11, 43, 79, 0.3);
+            width: 100%;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .login-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 20px 30px -8px rgba(11, 43, 79, 0.4);
+        }
+
+        .signup-prompt {
+            text-align: center;
+            margin-top: 2rem;
+            color: #536b84;
+            font-size: 0.95rem;
+        }
+
+        .signup-prompt a {
+            color: #1e4a7a;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .signup-prompt a:hover {
+            text-decoration: underline;
+        }
+
+        /* password toggle (simple) */
+        .toggle-password {
+            cursor: pointer;
+            color: #7b98b3;
+            margin-left: auto;
+        }
+
+        @media (max-width: 800px) {
+            .login-container {
+                flex-direction: column;
+                max-width: 500px;
+            }
+            .brand-panel {
+                padding: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <!-- LEFT: brand message -->
+        <div class="brand-panel">
+            <div>
+                <div class="brand-header">
+                    <i class="fas fa-database brand-icon"></i>
+                    <div class="brand-name">
+                        <h1>DataAArch</h1>
+                        <span>intelligent archive for banks</span>
+                    </div>
+                </div>
+                <div class="brand-tagline">
+                    <p>Separate active data from history — without losing access</p>
+                </div>
+                <ul class="brand-features">
+                    <li><i class="fas fa-shield-alt"></i> Regulatory compliance ready</li>
+                    <li><i class="fas fa-bolt"></i> Boost core performance</li>
+                    <li><i class="fas fa-coins"></i> Cut storage costs by ~40%</li>
+                </ul>
+            </div>
+            <div class="brand-footer">
+                <i class="fas fa-lock" style="margin-right: 6px;"></i> Financial‑grade encryption
+            </div>
+        </div>
+
+        <!-- RIGHT: login form -->
+        <div class="form-panel">
+            <div class="form-header">
+                <h2>Welcome back</h2>
+                <p>Sign in to your DataAArch console</p>
+            </div>
+
+            <form id="loginForm" onsubmit="event.preventDefault(); fakeLogin();">
+                <div class="input-group">
+                    <label class="input-label" for="email">Email</label>
+                    <div class="input-field">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" id="email" placeholder="bank-admin@example.com" value="demo@dataaarch.com" required>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label class="input-label" for="password">Password</label>
+                    <div class="input-field">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="password" placeholder="··········" value="demo123" required>
+                        <i class="fas fa-eye toggle-password" id="togglePassword"></i>
+                    </div>
+                </div>
+
+                <div class="password-options">
+                    <label class="remember-me">
+                        <input type="checkbox" checked> Remember me
+                    </label>
+                    <a href="#" class="forgot-link">Forgot password?</a>
+                </div>
+
+                <button type="submit" class="login-btn">Sign in to Dashboard</button>
+
+                <p class="signup-prompt">
+                    Don't have an account? <a href="#">Contact administrator</a>
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Simple password visibility toggle
+        const togglePassword = document.getElementById('togglePassword');
+        const passwordInput = document.getElementById('password');
+
+        togglePassword.addEventListener('click', function () {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            // toggle icon
+            this.classList.toggle('fa-eye');
+            this.classList.toggle('fa-eye-slash');
+        });
+
+        // Fake login – just an alert (for demo)
+        function fakeLogin() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            if (email && password) {
+                //alert(`Demo login: Welcome ${email}\n(no actual authentication)`);
+                // In a real app you'd redirect to dashboard
+                 window.location.href = "dashboard.html";
+            } else {
+                alert('Please enter both email and password');
+            }
+        }
+    </script>
+</body>
+</html>

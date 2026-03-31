@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DataAArch · User Field Configuration</title>
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f0f5fa;
+            color: #1e293b;
+        }
+
+        /* ========== LAYOUT WITH SIDEBAR ========== */
+        .app-layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* ========== SIDEBAR ========== */
+        .sidebar {
+            width: 280px;
+            background: #ffffff;
+            box-shadow: 2px 0 16px rgba(0, 20, 30, 0.06);
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid #e6edf4;
+            height: 100vh;
+            position: sticky;
+            top: 0;
+            overflow-y: auto;
+            padding: 2rem 1rem 1.5rem 1.2rem;
+        }
+
+        .sidebar-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 2.2rem;
+            padding-left: 0.4rem;
+        }
+
+        .sidebar-logo i {
+            font-size: 2rem;
+            color: #1f4e85;
+        }
+
+        .sidebar-logo span {
+            font-weight: 600;
+            font-size: 1.4rem;
+            color: #0b2d4f;
+            letter-spacing: -0.3px;
+        }
+
+        .nav-group {
+            margin-bottom: 2rem;
+        }
+
+        .nav-group-title {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            color: #7b91aa;
+            padding: 0 0.8rem 0.5rem 0.8rem;
+            border-bottom: 1px solid #eaf0f7;
+            margin-bottom: 0.6rem;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 0.7rem 1rem;
+            margin: 2px 0;
+            border-radius: 12px;
+            color: #2f4b6e;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.15s ease;
+            cursor: pointer; text-decoration: none;
+        }
+        .nav-sub a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            color: inherit;
+            text-decoration: none;
+        }
+
+
+        .nav-item i {
+            width: 22px;
+            font-size: 1.2rem;
+            color: #6f8db0;
+        }
+
+        .nav-item.active {
+            background: #e9f2fc;
+            color: #0c2d4e;
+            font-weight: 600;
+        }
+
+        .nav-item.active i {
+            color: #1f4e85;
+        }
+
+        .nav-item:hover:not(.active) {
+            background: #f5faff;
+            color: #1a3b5c;
+        }
+
+        .sub-group-head {
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: #1b3d60;
+            padding: 0.7rem 1rem 0.2rem 2.2rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .sub-group-head i {
+            font-size: 0.9rem;
+            color: #557ca5;
+            width: 20px;
+        }
+
+        .nav-sub {
+            list-style: none;
+            margin-left: 2rem;
+            padding-left: 0.5rem;
+            border-left: 1px dashed #cdddec;
+            margin-bottom: 0.8rem;
+        }
+
+        .nav-sub li {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0.55rem 1rem 0.55rem 0.8rem;
+            font-size: 0.9rem;
+            color: #456786;
+            border-radius: 10px;
+        }
+
+        .nav-sub li:hover {
+            background: #f4f9ff;
+            color: #1c3e60;
+        }
+
+        .divider {
+            height: 1px;
+            background: linear-gradient(to right, #dee9f2, transparent);
+            margin: 0.8rem 0 1.2rem 0;
+        }
+
+        .sidebar-footer {
+            margin-top: auto;
+            font-size: 0.8rem;
+            color: #8da2be;
+            padding: 1rem 0.8rem 0.2rem;
+            border-top: 1px solid #eaf0f8;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .sidebar-footer i {
+            font-size: 0.55rem;
+            color: #3ba55d;
+        }
+
+        /* ========== MAIN CONTENT ========== */
+        .main-content {
+            flex: 1;
+            overflow-x: auto;
+        }
+
+        .dashboard {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1.8rem 2rem;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .page-title h1 {
+            font-weight: 700;
+            font-size: 2rem;
+            color: #0b2b4f;
+            letter-spacing: -0.02em;
+        }
+
+        .page-title p {
+            color: #4a5a72;
+            font-size: 0.9rem;
+            margin-top: 4px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            background: white;
+            padding: 0.5rem 1.5rem 0.5rem 1rem;
+            border-radius: 60px;
+            box-shadow: 0 10px 20px -10px rgba(0,32,64,0.15);
+        }
+
+        .user-details {
+            text-align: right;
+        }
+
+        .user-name {
+            font-weight: 700;
+            color: #0b2b4f;
+        }
+
+        .datetime {
+            font-size: 0.8rem;
+            color: #5e7392;
+        }
+
+        .avatar {
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            background: linear-gradient(145deg, #0b2b4f, #1e4a7a);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        /* ========== SUMMARY TABLE ========== */
+        .summary-card {
+            background: white;
+            border-radius: 28px;
+            padding: 1.5rem 1.8rem;
+            box-shadow: 0 20px 30px -12px rgba(11,43,79,0.08);
+            border: 1px solid #eaf0f8;
+        }
+
+        .summary-card h2 {
+            font-weight: 700;
+            color: #1c3f5c;
+            margin-bottom: 1.2rem;
+            font-size: 1.3rem;
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 800px;
+        }
+
+        th {
+            text-align: left;
+            padding: 1rem 0.5rem 1rem 0;
+            font-weight: 600;
+            font-size: 0.8rem;
+            color: #5e7392;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            border-bottom: 2px solid #e2ecf9;
+        }
+
+        td {
+            padding: 1rem 0.5rem 1rem 0;
+            border-bottom: 1px solid #edf2f9;
+            color: #1f3a5f;
+            font-weight: 500;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 0.25rem 0.9rem;
+            border-radius: 40px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        .status-badge.active {
+            background: #e0f2e9;
+            color: #1f7840;
+        }
+        .status-badge.inactive {
+            background: #ffe8e8;
+            color: #b3261e;
+        }
+
+        .action-btn {
+            background: #f1f6fd;
+            border: 1px solid #d4e2f0;
+            border-radius: 40px;
+            padding: 0.4rem 1rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #1e4a7a;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-right: 0.5rem;
+        }
+        .action-btn:hover {
+            background: #e2ecf9;
+        }
+        .action-btn.deactivate {
+            color: #c44536;
+            border-color: #ffcfcf;
+            background: #fff5f5;
+        }
+        .action-btn.deactivate:hover {
+            background: #ffe8e8;
+        }
+        .action-btn.activate {
+            color: #1f7840;
+            border-color: #c0f0dd;
+            background: #e8f5e9;
+        }
+        .action-btn.activate:hover {
+            background: #d0f0e0;
+        }
+
+        /* ========== MODAL ========== */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0.2s, opacity 0.2s ease;
+        }
+        .modal-overlay.active {
+            visibility: visible;
+            opacity: 1;
+        }
+        .modal-container {
+            background: white;
+            border-radius: 32px;
+            width: 90%;
+            max-width: 700px;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 30px 50px -20px rgba(0,0,0,0.3);
+            animation: modalSlideIn 0.2s ease-out;
+            overflow: hidden;
+        }
+        @keyframes modalSlideIn {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 1.8rem 0.8rem 1.8rem;
+            border-bottom: 1px solid #edf2f9;
+            flex-shrink: 0;
+        }
+        .modal-header h3 {
+            font-weight: 700;
+            color: #0b2b4f;
+            font-size: 1.3rem;
+        }
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.4rem;
+            cursor: pointer;
+            color: #8ba0bc;
+            transition: color 0.2s;
+        }
+        .modal-close:hover {
+            color: #1e4a7a;
+        }
+        .modal-body {
+            padding: 1.5rem 1.8rem;
+            overflow-y: auto;
+            flex: 1;
+        }
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.2rem 1.5rem;
+        }
+        .full-width {
+            grid-column: span 2;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+        .form-group label {
+            font-weight: 600;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: #4f6582;
+            letter-spacing: 0.3px;
+        }
+        .form-group input, .form-group select, .form-group textarea {
+            background: #f8fcff;
+            border: 1px solid #dde7f0;
+            border-radius: 20px;
+            padding: 0.7rem 1rem;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            outline: none;
+            transition: all 0.2s;
+        }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            border-color: #1e4a7a;
+            box-shadow: 0 0 0 3px rgba(30,74,122,0.1);
+        }
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 0.2rem;
+        }
+        .checkbox-group label {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-weight: 500;
+            font-size: 0.85rem;
+            color: #1e3a5f;
+            text-transform: none;
+        }
+        .regex-box {
+            background: #f5f9ff;
+            border-radius: 20px;
+            padding: 0.8rem;
+            font-family: monospace;
+            font-size: 0.85rem;
+            word-break: break-all;
+            border: 1px solid #dde7f0;
+            margin-top: 0.5rem;
+        }
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid #e2ecf9;
+        }
+        .btn-primary {
+            background: #1e4a7a;
+            color: white;
+            border: none;
+            border-radius: 40px;
+            padding: 0.7rem 1.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-primary:hover {
+            background: #123b66;
+            transform: translateY(-2px);
+        }
+        .btn-secondary {
+            background: #f1f6fd;
+            border: 1px solid #d4e2f0;
+            border-radius: 40px;
+            padding: 0.7rem 1.8rem;
+            font-weight: 600;
+            color: #1e4a7a;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-secondary:hover {
+            background: #e2ecf9;
+        }
+    </style>
+</head>
+<body>
+<div class="app-layout">
+    <!-- SIDEBAR (User Field Configuration active) -->
+    <aside class="sidebar">
+        <div class="sidebar-logo">
+            <i class="fas fa-cubes"></i>
+            <span>DataAArch</span>
+        </div>
+        <a class="nav-item" href="dashboard.html" data-page="dashboard.html">
+            <i class="fas fa-tachometer-alt"></i> Dashboard
+        </a>
+        <div class="nav-group">
+            <div class="nav-group-title">Configurations</div>
+            <a class="nav-item active" href="userFieldConfig.html" data-page="userFieldConfig.html">
+                <i class="fas fa-user-cog"></i> User Field Configuration
+            </a>
+            <a class="nav-item" href="createUsre3.html" data-page="createUsre3.html">
+                <i class="fas fa-user-tag"></i> Role Configuration
+            </a>
+            <a class="nav-item" href="login.html" data-page="login.html">
+                <i class="fas fa-envelope-open-text"></i> Email Template Configuration
+            </a>
+            <a class="nav-item" href="report.html" data-page="report.html">
+                <i class="fas fa-paper-plane"></i> Sender Email Configuration
+            </a>
+        </div>
+        <div class="nav-group">
+            <div class="nav-group-title">Role Management Group</div>
+            <a class="nav-item" href="userFieldConfig.html" data-page="userFieldConfig.html"><i class="fas fa-shield-alt"></i> Role Management</a>
+        </div>
+        <div class="nav-group">
+            <div class="nav-group-title">Enterprise Master Data Group</div>
+            <a class="nav-item" href="bankingMaster.html" data-page="bankingMaster.html"><i class="fas fa-university"></i> Bank Master</a>
+            <a class="nav-item" href="userlist3.html" data-page="userlist3.html"><i class="fas fa-users-cog"></i> User Master</a>
+            <a class="nav-item" href="report.html" data-page="report.html"><i class="fas fa-mask"></i> Masking Master</a>
+        </div>
+        <div class="nav-group">
+            <div class="nav-group-title">Execution Group</div>
+            <a class="nav-item" href="serverConfig.html" data-page="serverConfig.html"><i class="fas fa-server"></i> Server Configuration</a>
+            <a class="nav-item" href="dbConfig.html" data-page="dbConfig.html"><i class="fas fa-database"></i> DB Configuration</a>
+            <div class="sub-group-head"><i class="fas fa-folder-open"></i> File server Source</div>
+            <ul class="nav-sub"><li><a href="userFieldConfig.html" data-page="userFieldConfig.html"><i class="fas fa-file-alt"></i> Configure Source File</a></li></ul>
+            <div class="sub-group-head"><i class="fas fa-database"></i> DB Source</div>
+            <ul class="nav-sub"><li><a href="report.html" data-page="report.html"><i class="fas fa-file-code"></i> Config DB File</a></li></ul>
+        </div>
+        <a class="nav-item" href="report.html" data-page="report.html">
+            <i class="fas fa-chart-line"></i> Reports
+        </a>
+        <div class="divider"></div>
+        <div class="sidebar-footer">
+            <i class="fas fa-circle"></i> All systems operational
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+        <div class="dashboard">
+            <!-- TOP BAR -->
+            <div class="top-bar">
+                <div class="page-title">
+                    <h1>User Field Configuration</h1>
+                    <p>Customize validation rules for registration form fields</p>
+                </div>
+                <div class="user-info">
+                    <div class="user-details">
+                        <div class="user-name" id="username">Jane Reyes</div>
+                        <div class="datetime" id="datetime"></div>
+                    </div>
+                    <div class="avatar">JR</div>
+                </div>
+            </div>
+
+            <!-- SUMMARY TABLE -->
+            <div class="summary-card">
+                <h2><i class="fas fa-table"></i> Current Configuration Summary</h2>
+                <div class="table-responsive">
+                    <table id="summaryTable">
+                        <thead>
+                            <tr>
+                                <th>Field Name</th>
+                                <th>Display Name</th>
+                                <th>Validation Type</th>
+                                <th>Status</th>
+                                <th>Min/Max Length</th>
+                                <th>Actions</th>
+                            </thead>
+                        <tbody id="summaryBody">
+                            <!-- populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<!-- MODAL for configuration (dynamic content) -->
+<div id="configModal" class="modal-overlay">
+    <div class="modal-container">
+        <div class="modal-header">
+            <h3 id="modalTitle">Configure Field</h3>
+            <button class="modal-close" id="closeModalBtn"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="modal-body" id="modalBody">
+            <!-- dynamic form will be injected here -->
+        </div>
+    </div>
+</div>
+
+<script>
+    // ---------- DEFAULT CONFIGURATION (stored in localStorage) ----------
+    const STORAGE_KEY = 'userFieldConfig';
+    let config = {
+        username: {
+            displayName: 'Username',
+            minLen: 3,
+            maxLen: 20,
+            validationType: 'alphanumeric',
+            customRegex: '^[A-Za-z0-9]+$',
+            checkboxStates: {
+                usernameAllowLetters: true,
+                usernameAllowNumbers: true,
+                usernameAllowSpecial: false,
+                usernameAllowSpaces: false,
+                usernameRequireUpper: false,
+                usernameRequireLower: false
+            },
+            customError: '',
+            status: 'active'
+        },
+        email: {
+            displayName: 'Email',
+            minLen: 5,
+            maxLen: 100,
+            validationType: 'standard',
+            allowedDomain: '',
+            customError: '',
+            status: 'active'
+        },
+        password: {
+            displayName: 'Password',
+            minLen: 8,
+            maxLen: 30,
+            validityDays: null,
+            validationType: 'custom',
+            customRegex: '^(?=.*[A-Z])?(?=.*[a-z])?[A-Za-z0-9]+$',
+            checkboxStates: {
+                passwordAllowLetters: true,
+                passwordAllowNumbers: true,
+                passwordAllowSpecial: false,
+                passwordAllowSpaces: false,
+                passwordRequireUpper: false,
+                passwordRequireLower: false
+            },
+            customError: '',
+            status: 'active'
+        }
+    };
+
+    // Helper: generate regex from checkbox states
+    function generateRegex(options) {
+        let pattern = '^';
+        if (options.requireUpper) pattern += '(?=.*[A-Z])';
+        if (options.requireLower) pattern += '(?=.*[a-z])';
+        let charSet = '';
+        if (options.allowLetters) charSet += 'A-Za-z';
+        if (options.allowNumbers) charSet += '0-9';
+        if (options.allowSpecial) charSet += '\\!\\@\\#\\$\\%\\^\\&\\*\\(\\)\\_\\+\\-\\=\\[\\]\\{\\}\\;\\:\\,\\.\\/\\?\\~\\`';
+        if (options.allowSpaces) charSet += '\\s';
+        if (charSet === '') charSet = '\\S';
+        pattern += '[' + charSet + ']+$';
+        return pattern;
+    }
+
+    // Load config from localStorage
+    function loadConfig() {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (saved) {
+            try {
+                const parsed = JSON.parse(saved);
+                config = { ...config, ...parsed };
+                // ensure each field has status (for older saved configs)
+                ['username', 'email', 'password'].forEach(f => {
+                    if (!config[f].status) config[f].status = 'active';
+                });
+            } catch(e) {}
+        }
+        renderSummary();
+    }
+
+    // Render summary table
+    function renderSummary() {
+        const tbody = document.getElementById('summaryBody');
+        tbody.innerHTML = '';
+        const fields = [
+            { key: 'username', label: 'Username' },
+            { key: 'email', label: 'Email' },
+            { key: 'password', label: 'Password' }
+        ];
+        fields.forEach(field => {
+            const cfg = config[field.key];
+            const validationType = field.key === 'username' ? (cfg.validationType === 'alphanumeric' ? 'Alphanumeric' : 'Custom Pattern') :
+                                 (field.key === 'email' ? (cfg.validationType === 'standard' ? 'Standard Email' : `Domain: ${cfg.allowedDomain || 'any'}`) :
+                                 (cfg.validationType === 'custom' ? 'Custom Pattern' : 'Standard'));
+            const minMax = `${cfg.minLen} - ${cfg.maxLen}`;
+            const statusClass = cfg.status === 'active' ? 'active' : 'inactive';
+            const statusText = cfg.status === 'active' ? 'Active' : 'Inactive';
+            const actionButton = cfg.status === 'active' 
+                ? `<button class="action-btn deactivate" data-field="${field.key}" data-action="deactivate">Deactivate</button>`
+                : `<button class="action-btn activate" data-field="${field.key}" data-action="activate">Activate</button>`;
+            const row = `
+                <tr>
+                    <td><span class="status-badge" style="background:#e9f2fc; color:#1e4a7a;">${field.label}</span></td>
+                    <td>${escapeHtml(cfg.displayName)}</td>
+                    <td>${escapeHtml(validationType)}</td>
+                    <td><span class="status-badge ${statusClass}">${statusText}</span></td>
+                    <td>${minMax}</td>
+                    <td>
+                        <button class="action-btn" data-field="${field.key}" data-action="configure">Configure</button>
+                        ${actionButton}
+                    </td>
+                </tr>
+            `;
+            tbody.insertAdjacentHTML('beforeend', row);
+        });
+
+        // attach event listeners to all action buttons
+        document.querySelectorAll('.action-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const fieldKey = btn.dataset.field;
+                const action = btn.dataset.action;
+                if (action === 'configure') {
+                    openModal(fieldKey);
+                } else if (action === 'deactivate') {
+                    toggleStatus(fieldKey, 'inactive');
+                } else if (action === 'activate') {
+                    toggleStatus(fieldKey, 'active');
+                }
+            });
+        });
+    }
+
+    function toggleStatus(fieldKey, newStatus) {
+        if (config[fieldKey]) {
+            config[fieldKey].status = newStatus;
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(config));
+            renderSummary();
+        }
+    }
+
+    function escapeHtml(str) {
+        if (!str) return '';
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
+    }
+
+    // Open modal with appropriate form for the selected field
+    function openModal(fieldKey) {
+        const modal = document.getElementById('configModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalBody = document.getElementById('modalBody');
+        const cfg = config[fieldKey];
+        let formHtml = '';
+
+        if (fieldKey === 'username') {
+            modalTitle.innerText = 'Configure Username';
+            const checkboxStates = cfg.checkboxStates || {};
+            formHtml = `
+                <form id="fieldConfigForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Display Name</label>
+                            <input type="text" id="usernameDisplayName" value="${escapeHtml(cfg.displayName)}">
+                        </div>
+                        <div class="form-group">
+                            <label>Min Length</label>
+                            <input type="number" id="usernameMinLen" value="${cfg.minLen}">
+                        </div>
+                        <div class="form-group">
+                            <label>Max Length</label>
+                            <input type="number" id="usernameMaxLen" value="${cfg.maxLen}">
+                        </div>
+                        <div class="form-group">
+                            <label>Validation Type</label>
+                            <select id="usernameValidationType">
+                                <option value="alphanumeric" ${cfg.validationType === 'alphanumeric' ? 'selected' : ''}>Alphanumeric</option>
+                                <option value="custom" ${cfg.validationType === 'custom' ? 'selected' : ''}>Custom (Build Pattern)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div id="usernameCustomOptions" style="display: ${cfg.validationType === 'custom' ? 'block' : 'none'};">
+                        <div class="form-group full-width">
+                            <label>Build Validation Pattern</label>
+                            <div class="checkbox-group">
+                                <label><input type="checkbox" id="usernameAllowLetters" ${checkboxStates.usernameAllowLetters ? 'checked' : ''}> Allow Letters (a-z, A-Z)</label>
+                                <label><input type="checkbox" id="usernameAllowNumbers" ${checkboxStates.usernameAllowNumbers ? 'checked' : ''}> Allow Numbers (0-9)</label>
+                                <label><input type="checkbox" id="usernameAllowSpecial" ${checkboxStates.usernameAllowSpecial ? 'checked' : ''}> Allow Special Characters</label>
+                                <label><input type="checkbox" id="usernameAllowSpaces" ${checkboxStates.usernameAllowSpaces ? 'checked' : ''}> Allow Spaces</label>
+                                <label><input type="checkbox" id="usernameRequireUpper" ${checkboxStates.usernameRequireUpper ? 'checked' : ''}> Require Uppercase</label>
+                                <label><input type="checkbox" id="usernameRequireLower" ${checkboxStates.usernameRequireLower ? 'checked' : ''}> Require Lowercase</label>
+                            </div>
+                            <div class="regex-box" id="usernameRegexDisplay">${cfg.customRegex || '^[A-Za-z0-9]+$'}</div>
+                        </div>
+                    </div>
+                    <div class="form-group full-width">
+                        <label>Custom Error Message</label>
+                        <input type="text" id="usernameErrorMessage" value="${escapeHtml(cfg.customError || '')}">
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn-secondary" id="cancelModalFormBtn">Cancel</button>
+                        <button type="submit" class="btn-primary">Save Configuration</button>
+                    </div>
+                </form>
+            `;
+        } else if (fieldKey === 'email') {
+            modalTitle.innerText = 'Configure Email';
+            formHtml = `
+                <form id="fieldConfigForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Display Name</label>
+                            <input type="text" id="emailDisplayName" value="${escapeHtml(cfg.displayName)}">
+                        </div>
+                        <div class="form-group">
+                            <label>Min Length</label>
+                            <input type="number" id="emailMinLen" value="${cfg.minLen}">
+                        </div>
+                        <div class="form-group">
+                            <label>Max Length</label>
+                            <input type="number" id="emailMaxLen" value="${cfg.maxLen}">
+                        </div>
+                        <div class="form-group">
+                            <label>Validation Type</label>
+                            <select id="emailValidationType">
+                                <option value="standard" ${cfg.validationType === 'standard' ? 'selected' : ''}>Standard Email</option>
+                                <option value="domain_restrict" ${cfg.validationType === 'domain_restrict' ? 'selected' : ''}>Domain Restriction</option>
+                            </select>
+                        </div>
+                        <div class="form-group full-width" id="emailDomainGroup" style="display: ${cfg.validationType === 'domain_restrict' ? 'block' : 'none'};">
+                            <label>Allowed Domain (Optional)</label>
+                            <input type="text" id="emailAllowedDomain" value="${escapeHtml(cfg.allowedDomain || '')}">
+                        </div>
+                    </div>
+                    <div class="form-group full-width">
+                        <label>Custom Error Message</label>
+                        <input type="text" id="emailErrorMessage" value="${escapeHtml(cfg.customError || '')}">
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn-secondary" id="cancelModalFormBtn">Cancel</button>
+                        <button type="submit" class="btn-primary">Save Configuration</button>
+                    </div>
+                </form>
+            `;
+        } else if (fieldKey === 'password') {
+            modalTitle.innerText = 'Configure Password';
+            const checkboxStates = cfg.checkboxStates || {};
+            formHtml = `
+                <form id="fieldConfigForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Display Name</label>
+                            <input type="text" id="passwordDisplayName" value="${escapeHtml(cfg.displayName)}">
+                        </div>
+                        <div class="form-group">
+                            <label>Min Length</label>
+                            <input type="number" id="passwordMinLen" value="${cfg.minLen}">
+                        </div>
+                        <div class="form-group">
+                            <label>Max Length</label>
+                            <input type="number" id="passwordMaxLen" value="${cfg.maxLen}">
+                        </div>
+                        <div class="form-group">
+                            <label>Password Validity (Days)</label>
+                            <input type="number" id="passwordValidityDays" value="${cfg.validityDays !== null ? cfg.validityDays : ''}">
+                        </div>
+                        <div class="form-group">
+                            <label>Validation Type</label>
+                            <select id="passwordValidationType">
+                                <option value="custom" selected>Custom (Build Pattern)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group full-width">
+                        <label>Build Validation Pattern</label>
+                        <div class="checkbox-group">
+                            <label><input type="checkbox" id="passwordAllowLetters" ${checkboxStates.passwordAllowLetters ? 'checked' : ''}> Allow Letters (a-z, A-Z)</label>
+                            <label><input type="checkbox" id="passwordAllowNumbers" ${checkboxStates.passwordAllowNumbers ? 'checked' : ''}> Allow Numbers (0-9)</label>
+                            <label><input type="checkbox" id="passwordAllowSpecial" ${checkboxStates.passwordAllowSpecial ? 'checked' : ''}> Allow Special Characters</label>
+                            <label><input type="checkbox" id="passwordAllowSpaces" ${checkboxStates.passwordAllowSpaces ? 'checked' : ''}> Allow Spaces</label>
+                            <label><input type="checkbox" id="passwordRequireUpper" ${checkboxStates.passwordRequireUpper ? 'checked' : ''}> Require Uppercase</label>
+                            <label><input type="checkbox" id="passwordRequireLower" ${checkboxStates.passwordRequireLower ? 'checked' : ''}> Require Lowercase</label>
+                        </div>
+                        <div class="regex-box" id="passwordRegexDisplay">${cfg.customRegex || '^(?=.*[A-Z])?(?=.*[a-z])?[A-Za-z0-9]+$'}</div>
+                    </div>
+                    <div class="form-group full-width">
+                        <label>Custom Error Message</label>
+                        <input type="text" id="passwordErrorMessage" value="${escapeHtml(cfg.customError || '')}">
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn-secondary" id="cancelModalFormBtn">Cancel</button>
+                        <button type="submit" class="btn-primary">Save Configuration</button>
+                    </div>
+                </form>
+            `;
+        }
+
+        modalBody.innerHTML = formHtml;
+        modal.classList.add('active');
+
+        // Attach dynamic event handlers after form is injected
+        if (fieldKey === 'username') {
+            // validation type toggle
+            const usernameType = document.getElementById('usernameValidationType');
+            const customDiv = document.getElementById('usernameCustomOptions');
+            usernameType.addEventListener('change', () => {
+                customDiv.style.display = usernameType.value === 'custom' ? 'block' : 'none';
+                if (usernameType.value === 'custom') updateUsernameRegex();
+            });
+            const usernameCheckboxIds = ['usernameAllowLetters','usernameAllowNumbers','usernameAllowSpecial','usernameAllowSpaces','usernameRequireUpper','usernameRequireLower'];
+            function updateUsernameRegex() {
+                const options = {
+                    allowLetters: document.getElementById('usernameAllowLetters').checked,
+                    allowNumbers: document.getElementById('usernameAllowNumbers').checked,
+                    allowSpecial: document.getElementById('usernameAllowSpecial').checked,
+                    allowSpaces: document.getElementById('usernameAllowSpaces').checked,
+                    requireUpper: document.getElementById('usernameRequireUpper').checked,
+                    requireLower: document.getElementById('usernameRequireLower').checked
+                };
+                const regex = generateRegex(options);
+                document.getElementById('usernameRegexDisplay').innerText = regex;
+                return regex;
+            }
+            usernameCheckboxIds.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.addEventListener('change', updateUsernameRegex);
+            });
+            // initial regex update
+            if (usernameType.value === 'custom') updateUsernameRegex();
+        }
+        if (fieldKey === 'email') {
+            const emailType = document.getElementById('emailValidationType');
+            const domainGroup = document.getElementById('emailDomainGroup');
+            emailType.addEventListener('change', () => {
+                domainGroup.style.display = emailType.value === 'domain_restrict' ? 'block' : 'none';
+            });
+        }
+        if (fieldKey === 'password') {
+            const passwordCheckboxIds = ['passwordAllowLetters','passwordAllowNumbers','passwordAllowSpecial','passwordAllowSpaces','passwordRequireUpper','passwordRequireLower'];
+            function updatePasswordRegex() {
+                const options = {
+                    allowLetters: document.getElementById('passwordAllowLetters').checked,
+                    allowNumbers: document.getElementById('passwordAllowNumbers').checked,
+                    allowSpecial: document.getElementById('passwordAllowSpecial').checked,
+                    allowSpaces: document.getElementById('passwordAllowSpaces').checked,
+                    requireUpper: document.getElementById('passwordRequireUpper').checked,
+                    requireLower: document.getElementById('passwordRequireLower').checked
+                };
+                const regex = generateRegex(options);
+                document.getElementById('passwordRegexDisplay').innerText = regex;
+                return regex;
+            }
+            passwordCheckboxIds.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.addEventListener('change', updatePasswordRegex);
+            });
+            updatePasswordRegex();
+        }
+
+        // form submission handler
+        const form = document.getElementById('fieldConfigForm');
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            if (fieldKey === 'username') {
+                const newConfig = {
+                    displayName: document.getElementById('usernameDisplayName').value,
+                    minLen: parseInt(document.getElementById('usernameMinLen').value) || 1,
+                    maxLen: parseInt(document.getElementById('usernameMaxLen').value) || 100,
+                    validationType: document.getElementById('usernameValidationType').value,
+                    customRegex: '',
+                    checkboxStates: {
+                        usernameAllowLetters: document.getElementById('usernameAllowLetters').checked,
+                        usernameAllowNumbers: document.getElementById('usernameAllowNumbers').checked,
+                        usernameAllowSpecial: document.getElementById('usernameAllowSpecial').checked,
+                        usernameAllowSpaces: document.getElementById('usernameAllowSpaces').checked,
+                        usernameRequireUpper: document.getElementById('usernameRequireUpper').checked,
+                        usernameRequireLower: document.getElementById('usernameRequireLower').checked
+                    },
+                    customError: document.getElementById('usernameErrorMessage').value,
+                    status: config.username.status // preserve status
+                };
+                if (newConfig.validationType === 'custom') {
+                    newConfig.customRegex = generateRegex(newConfig.checkboxStates);
+                } else {
+                    newConfig.customRegex = '^[A-Za-z0-9]+$';
+                }
+                config.username = newConfig;
+            } else if (fieldKey === 'email') {
+                config.email = {
+                    displayName: document.getElementById('emailDisplayName').value,
+                    minLen: parseInt(document.getElementById('emailMinLen').value) || 1,
+                    maxLen: parseInt(document.getElementById('emailMaxLen').value) || 255,
+                    validationType: document.getElementById('emailValidationType').value,
+                    allowedDomain: document.getElementById('emailAllowedDomain').value,
+                    customError: document.getElementById('emailErrorMessage').value,
+                    status: config.email.status
+                };
+            } else if (fieldKey === 'password') {
+                const checkboxStates = {
+                    passwordAllowLetters: document.getElementById('passwordAllowLetters').checked,
+                    passwordAllowNumbers: document.getElementById('passwordAllowNumbers').checked,
+                    passwordAllowSpecial: document.getElementById('passwordAllowSpecial').checked,
+                    passwordAllowSpaces: document.getElementById('passwordAllowSpaces').checked,
+                    passwordRequireUpper: document.getElementById('passwordRequireUpper').checked,
+                    passwordRequireLower: document.getElementById('passwordRequireLower').checked
+                };
+                config.password = {
+                    displayName: document.getElementById('passwordDisplayName').value,
+                    minLen: parseInt(document.getElementById('passwordMinLen').value) || 1,
+                    maxLen: parseInt(document.getElementById('passwordMaxLen').value) || 100,
+                    validityDays: document.getElementById('passwordValidityDays').value ? parseInt(document.getElementById('passwordValidityDays').value) : null,
+                    validationType: 'custom',
+                    customRegex: generateRegex(checkboxStates),
+                    checkboxStates: checkboxStates,
+                    customError: document.getElementById('passwordErrorMessage').value,
+                    status: config.password.status
+                };
+            }
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(config));
+            renderSummary();
+            closeModal();
+            alert(`${fieldKey.charAt(0).toUpperCase() + fieldKey.slice(1)} configuration saved!`);
+        });
+
+        const cancelBtn = document.getElementById('cancelModalFormBtn');
+        if (cancelBtn) cancelBtn.addEventListener('click', closeModal);
+    }
+
+    function closeModal() {
+        const modal = document.getElementById('configModal');
+        modal.classList.remove('active');
+    }
+
+    // Modal close events
+    const closeModalBtn = document.getElementById('closeModalBtn');
+    closeModalBtn.addEventListener('click', closeModal);
+    const modalOverlay = document.getElementById('configModal');
+    modalOverlay.addEventListener('click', (e) => {
+        if (e.target === modalOverlay) closeModal();
+    });
+
+    // Date/Time for top bar
+    function updateDateTime() {
+        const now = new Date();
+        const formatted = now.toLocaleString('en-US', { 
+            weekday: 'short', year: 'numeric', month: 'short', day: 'numeric',
+            hour: '2-digit', minute: '2-digit', second: '2-digit'
+        });
+        document.getElementById('datetime').innerText = formatted;
+    }
+    updateDateTime();
+    setInterval(updateDateTime, 1000);
+
+    // Initial load
+    loadConfig();
+</script>
+</body>
+</html>
