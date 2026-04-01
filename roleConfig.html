@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DataAArch · Database Configuration</title>
+    <title>DataAArch · Role Configuration</title>
     <!-- Fonts & Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -26,7 +26,7 @@
             min-height: 100vh;
         }
 
-        /* ========== SIDEBAR ========== */
+        /* ========== SIDEBAR (matching previous) ========== */
         .sidebar {
             width: 280px;
             background: #ffffff;
@@ -87,17 +87,8 @@
             font-weight: 500;
             font-size: 0.95rem;
             transition: all 0.15s ease;
-            cursor: pointer; text-decoration: none;
+            cursor: default;
         }
-        .nav-sub a {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            width: 100%;
-            color: inherit;
-            text-decoration: none;
-        }
-
 
         .nav-item i {
             width: 22px;
@@ -250,57 +241,8 @@
             font-size: 1.2rem;
         }
 
-        /* ========== STAT CARDS ========== */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .stat-card {
-            background: white;
-            border-radius: 28px;
-            padding: 1.5rem 1.2rem;
-            box-shadow: 0 20px 30px -12px rgba(11,43,79,0.08);
-            border: 1px solid #eaf0f8;
-            transition: transform 0.15s;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-4px);
-        }
-
-        .stat-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 0.8rem;
-        }
-
-        .stat-header i {
-            font-size: 2rem;
-            color: #1e4a7a;
-            opacity: 0.7;
-        }
-
-        .stat-title {
-            font-weight: 600;
-            color: #536b84;
-            text-transform: uppercase;
-            font-size: 0.7rem;
-            letter-spacing: 0.4px;
-        }
-
-        .stat-value {
-            font-size: 2rem;
-            font-weight: 700;
-            color: #0b2b4f;
-            line-height: 1.2;
-        }
-
         /* ========== TABLE SECTION ========== */
-        .table-section {
+        .table-card {
             background: white;
             border-radius: 28px;
             padding: 1.5rem 1.8rem;
@@ -317,17 +259,15 @@
             gap: 1rem;
         }
 
-        .table-header h3 {
+        .table-header h2 {
             font-weight: 700;
             color: #1c3f5c;
             font-size: 1.3rem;
         }
 
-        .filter-search {
+        .action-buttons {
             display: flex;
             gap: 1rem;
-            align-items: center;
-            flex-wrap: wrap;
         }
 
         .search-wrapper {
@@ -354,37 +294,31 @@
             width: 200px;
         }
 
-        .filter-select {
-            background: #f1f6fd;
-            border: 1px solid #d4e2f0;
+        .btn-primary, .btn-secondary {
+            padding: 0.6rem 1.4rem;
             border-radius: 40px;
-            padding: 0.5rem 1rem;
-            font-family: 'Inter', sans-serif;
-            font-size: 0.9rem;
-            color: #1e3a5f;
-            outline: none;
-            cursor: pointer;
-        }
-
-        .add-btn {
-            background: #1e4a7a;
-            border: none;
-            border-radius: 40px;
-            padding: 0.7rem 1.8rem;
             font-weight: 600;
-            font-size: 0.95rem;
-            color: white;
+            font-size: 0.9rem;
             cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.6rem;
-            box-shadow: 0 8px 16px -6px #1e4a7a;
             transition: all 0.2s;
+            border: none;
         }
-
-        .add-btn:hover {
+        .btn-primary {
+            background: #1e4a7a;
+            color: white;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+        }
+        .btn-primary:hover {
             background: #123b66;
             transform: translateY(-2px);
+        }
+        .btn-secondary {
+            background: #f1f6fd;
+            border: 1px solid #d4e2f0;
+            color: #1e4a7a;
+        }
+        .btn-secondary:hover {
+            background: #e2ecf9;
         }
 
         .table-responsive {
@@ -431,22 +365,26 @@
             color: #b3261e;
         }
 
-        .action-btn {
-            background: transparent;
+        .action-icons {
+            display: flex;
+            gap: 0.8rem;
+        }
+        .action-icon {
+            background: none;
             border: none;
-            font-size: 1.1rem;
-            margin-right: 0.8rem;
             cursor: pointer;
             color: #7b98b3;
-            transition: color 0.15s, transform 0.1s;
+            transition: color 0.2s;
+            font-size: 1rem;
         }
-        .action-btn.edit:hover {
+        .action-icon.edit:hover {
             color: #1e4a7a;
-            transform: scale(1.1);
         }
-        .action-btn.delete:hover {
+        .action-icon.deactivate:hover {
+            color: #e68a2e;
+        }
+        .action-icon.delete:hover {
             color: #c44536;
-            transform: scale(1.1);
         }
 
         /* ========== MODAL ========== */
@@ -474,7 +412,7 @@
             background: white;
             border-radius: 32px;
             width: 90%;
-            max-width: 600px;
+            max-width: 500px;
             max-height: 90vh;
             display: flex;
             flex-direction: column;
@@ -483,14 +421,8 @@
             overflow: hidden;
         }
         @keyframes modalSlideIn {
-            from {
-                transform: translateY(20px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
         }
         .modal-header {
             display: flex;
@@ -533,7 +465,7 @@
             margin-bottom: 0.4rem;
             letter-spacing: 0.3px;
         }
-        .form-group input, .form-group select {
+        .form-group input, .form-group textarea {
             width: 100%;
             background: #f8fcff;
             border: 1px solid #dde7f0;
@@ -544,23 +476,63 @@
             outline: none;
             transition: all 0.2s;
         }
-        .form-group input:focus, .form-group select:focus {
+        .form-group input:focus, .form-group textarea:focus {
             border-color: #1e4a7a;
             box-shadow: 0 0 0 3px rgba(30,74,122,0.1);
         }
-        .password-wrapper {
+        .toggle-group {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #f8fcff;
+            border: 1px solid #dde7f0;
+            border-radius: 20px;
+            padding: 0.6rem 1rem;
+        }
+        .toggle-group label {
+            font-weight: 600;
+            font-size: 0.8rem;
+            text-transform: none;
+            margin-bottom: 0;
+        }
+        .toggle-switch {
             position: relative;
+            display: inline-block;
+            width: 48px;
+            height: 24px;
         }
-        .password-wrapper input {
-            padding-right: 2.5rem;
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
         }
-        .toggle-password {
+        .slider {
             position: absolute;
-            right: 1rem;
-            top: 50%;
-            transform: translateY(-50%);
             cursor: pointer;
-            color: #7b98b3;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: 0.3s;
+            border-radius: 24px;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: 0.3s;
+            border-radius: 50%;
+        }
+        input:checked + .slider {
+            background-color: #1e4a7a;
+        }
+        input:checked + .slider:before {
+            transform: translateX(24px);
         }
         .form-actions {
             display: flex;
@@ -570,55 +542,28 @@
             padding-top: 1rem;
             border-top: 1px solid #e2ecf9;
         }
-        .btn-primary {
+        .btn-modal {
             background: #1e4a7a;
             color: white;
             border: none;
             border-radius: 40px;
-            padding: 0.7rem 1.8rem;
+            padding: 0.6rem 1.4rem;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.2s;
         }
-        .btn-primary:hover {
+        .btn-modal:hover {
             background: #123b66;
-            transform: translateY(-2px);
-        }
-        .btn-secondary {
-            background: #f1f6fd;
-            border: 1px solid #d4e2f0;
-            border-radius: 40px;
-            padding: 0.7rem 1.8rem;
-            font-weight: 600;
-            color: #1e4a7a;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        .btn-secondary:hover {
-            background: #e2ecf9;
-        }
-
-        @media (max-width: 900px) {
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
-            .table-header {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            .filter-search {
-                justify-content: space-between;
-            }
         }
 
         .nav-links{
             text-decoration: none;
         }
+
     </style>
 </head>
 <body>
 <div class="app-layout">
-    <!-- SIDEBAR (DB Configuration active) -->
+    <!-- SIDEBAR (Role Configuration active) -->
     <aside class="sidebar">
         <div class="sidebar-logo">
             <i class="fas fa-cubes"></i>
@@ -690,8 +635,8 @@
             <!-- TOP BAR -->
             <div class="top-bar">
                 <div class="page-title">
-                    <h1>Database Configuration</h1>
-                    <p>Manage database connections and credentials</p>
+                    <h1>Role Configuration</h1>
+                    <p>Manage roles and permissions</p>
                 </div>
                 <div class="user-info">
                     <div class="user-details">
@@ -702,68 +647,33 @@
                 </div>
             </div>
 
-            <!-- Stats Cards -->
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-header">
-                        <span class="stat-title">Total Databases</span>
-                        <i class="fas fa-database"></i>
-                    </div>
-                    <div class="stat-value" id="totalDBs">0</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-header">
-                        <span class="stat-title">Active</span>
-                        <i class="fas fa-check-circle"></i>
-                    </div>
-                    <div class="stat-value" id="activeDBs">0</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-header">
-                        <span class="stat-title">Inactive</span>
-                        <i class="fas fa-exclamation-circle"></i>
-                    </div>
-                    <div class="stat-value" id="inactiveDBs">0</div>
-                </div>
-            </div>
-
-            <!-- Table Section -->
-            <div class="table-section">
+            <!-- TABLE CARD -->
+            <div class="table-card">
                 <div class="table-header">
-                    <h3><i class="fas fa-list"></i> Database Connections</h3>
-                    <div class="filter-search">
+                    <h2><i class="fas fa-list"></i> Roles</h2>
+                    <div class="action-buttons">
                         <div class="search-wrapper">
                             <i class="fas fa-search"></i>
-                            <input type="text" id="searchInput" placeholder="Search by DB Name, Host...">
+                            <input type="text" id="searchInput" placeholder="Search roles...">
                         </div>
-                        <select id="statusFilter" class="filter-select">
-                            <option value="all">All Status</option>
-                            <option value="active">Active</option>
-                            <option value="inactive">Inactive</option>
-                        </select>
-                        <select id="typeFilter" class="filter-select">
-                            <option value="all">All Types</option>
-                            <option value="MySQL">MySQL</option>
-                            <option value="PostgreSQL">PostgreSQL</option>
-                            <option value="Oracle">Oracle</option>
-                            <option value="SQL Server">SQL Server</option>
-                        </select>
-                        <button class="add-btn" id="addDBBtn"><i class="fas fa-plus-circle"></i> Add DB Config</button>
+                        <button class="btn-primary" id="createRoleBtn"><i class="fas fa-plus"></i> Create Role</button>
+                        <button class="btn-secondary" id="approveRoleBtn"><i class="fas fa-check-circle"></i> Approve Role</button>
                     </div>
                 </div>
                 <div class="table-responsive">
-                    <table id="dbsTable">
+                    <table id="rolesTable">
                         <thead>
                             <tr>
-                                <th>DB Name</th>
-                                <th>Host</th>
-                                <th>Port</th>
-                                <th>Schema</th>
+                                <th>Role Name</th>
+                                <th>Description</th>
                                 <th>Status</th>
+                                <th>Configured</th>
+                                <th>Created On</th>
                                 <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tableBody"></tbody>
+                            </thead>
+                        <tbody id="tableBody">
+                            <!-- populated by JS -->
+                        </tbody>
                     </table>
                 </div>
             </div>
@@ -771,62 +681,41 @@
     </main>
 </div>
 
-<!-- Modal for Add/Edit DB Config -->
-<div id="dbModal" class="modal-overlay">
+<!-- CREATE/EDIT ROLE MODAL -->
+<div id="roleModal" class="modal-overlay">
     <div class="modal-container">
         <div class="modal-header">
-            <h3 id="modalTitle">Add Database Configuration</h3>
+            <h3 id="modalTitle">Create Role</h3>
             <button class="modal-close" id="closeModalBtn"><i class="fas fa-times"></i></button>
         </div>
         <div class="modal-body">
-            <form id="dbForm">
-                <input type="hidden" id="editDBId" value="">
+            <form id="roleForm">
+                <input type="hidden" id="editRoleId" value="">
                 <div class="form-group">
-                    <label>Database Type *</label>
-                    <select id="dbType" required>
-                        <option value="MySQL">MySQL</option>
-                        <option value="PostgreSQL">PostgreSQL</option>
-                        <option value="Oracle">Oracle</option>
-                        <option value="SQL Server">SQL Server</option>
-                    </select>
+                    <label>Role Name *</label>
+                    <input type="text" id="roleName" required>
                 </div>
                 <div class="form-group">
-                    <label>DB Name *</label>
-                    <input type="text" id="dbName" required>
+                    <label>Description *</label>
+                    <textarea id="roleDescription" rows="3" required></textarea>
                 </div>
-                <div class="form-group">
-                    <label>Host *</label>
-                    <input type="text" id="host" required>
+                <div class="form-group toggle-group">
+                    <label>Active</label>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="roleActive">
+                        <span class="slider"></span>
+                    </label>
                 </div>
-                <div class="form-group">
-                    <label>Port *</label>
-                    <input type="text" id="port" required>
-                </div>
-                <div class="form-group">
-                    <label>Username</label>
-                    <input type="text" id="username">
-                </div>
-                <div class="form-group">
-                    <label>Password</label>
-                    <div class="password-wrapper">
-                        <input type="password" id="password">
-                        <i class="fas fa-eye toggle-password" id="togglePassword"></i>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label>Schema</label>
-                    <input type="text" id="schema">
-                </div>
-                <div class="form-group">
-                    <label>Status *</label>
-                    <select id="status" required>
-                        <option value="active">Active</option>
-                        <option value="inactive">Inactive</option>
-                    </select>
+                <div class="form-group toggle-group">
+                    <label>Configured</label>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="roleConfigured">
+                        <span class="slider"></span>
+                    </label>
                 </div>
                 <div class="form-actions">
                     <button type="button" class="btn-secondary" id="cancelModalBtn">Cancel</button>
-                    <button type="submit" class="btn-primary">Save Database</button>
+                    <button type="submit" class="btn-modal">Save Role</button>
                 </div>
             </form>
         </div>
@@ -834,182 +723,200 @@
 </div>
 
 <script>
-    (function() {
-        // ---------- MOCK DATA ----------
-        let databases = [
-            { id: 1, dbType: 'MySQL', dbName: 'CoreBanking', host: 'db1.bank.local', port: '3306', username: 'admin', password: 'admin123', schema: 'core_db', status: 'active' },
-            { id: 2, dbType: 'PostgreSQL', dbName: 'Analytics', host: 'analytics.db', port: '5432', username: 'analyst', password: 'analyst123', schema: 'analytics', status: 'active' },
-            { id: 3, dbType: 'Oracle', dbName: 'BackupDB', host: '192.168.1.50', port: '1521', username: 'sysbackup', password: 'backup456', schema: 'backup', status: 'inactive' },
-            { id: 4, dbType: 'SQL Server', dbName: 'Reporting', host: 'sqlrpt.internal', port: '1433', username: 'report_user', password: 'report789', schema: 'reports', status: 'active' },
-            { id: 5, dbType: 'MySQL', dbName: 'Archive', host: 'archive.bank.com', port: '3306', username: 'archiver', password: 'archive123', schema: 'archive', status: 'inactive' }
-        ];
+    // ---------- STORAGE ----------
+    const STORAGE_KEY = 'roleConfigurations';
+    let roles = [];
 
-        // Helper to update stat cards
-        function updateStats() {
-            const total = databases.length;
-            const active = databases.filter(db => db.status === 'active').length;
-            const inactive = total - active;
-            document.getElementById('totalDBs').innerText = total;
-            document.getElementById('activeDBs').innerText = active;
-            document.getElementById('inactiveDBs').innerText = inactive;
+    // Helper: format date
+    function formatDate(dateString) {
+        if (!dateString) return '-';
+        const date = new Date(dateString);
+        return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+    }
+
+    // Load from localStorage
+    function loadRoles() {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (saved) {
+            try {
+                roles = JSON.parse(saved);
+            } catch(e) {}
         }
-
-        // Render table with filters
-        function renderTable() {
-            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-            const statusFilter = document.getElementById('statusFilter').value;
-            const typeFilter = document.getElementById('typeFilter').value;
-
-            const filtered = databases.filter(db => {
-                const matchesSearch = db.dbName.toLowerCase().includes(searchTerm) ||
-                                      db.host.toLowerCase().includes(searchTerm) ||
-                                      db.dbType.toLowerCase().includes(searchTerm);
-                const matchesStatus = statusFilter === 'all' || db.status === statusFilter;
-                const matchesType = typeFilter === 'all' || db.dbType === typeFilter;
-                return matchesSearch && matchesStatus && matchesType;
-            });
-
-            const tbody = document.getElementById('tableBody');
-            tbody.innerHTML = '';
-            filtered.forEach(db => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${db.dbName}</td>
-                    <td>${db.host}</td>
-                    <td>${db.port}</td>
-                    <td>${db.schema || '-'}</td>
-                    <td><span class="status-badge ${db.status}">${db.status === 'active' ? 'Active' : 'Inactive'}</span></td>
-                    <td>
-                        <button class="action-btn edit" data-id="${db.id}"><i class="fas fa-edit"></i></button>
-                        <button class="action-btn delete" data-id="${db.id}"><i class="fas fa-trash-alt"></i></button>
-                    </td>
-                `;
-                tbody.appendChild(row);
-            });
-
-            // Attach edit/delete handlers
-            document.querySelectorAll('.edit').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    const id = parseInt(btn.dataset.id);
-                    const db = databases.find(d => d.id === id);
-                    if (db) openEditModal(db);
-                });
-            });
-            document.querySelectorAll('.delete').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    const id = parseInt(btn.dataset.id);
-                    if (confirm('Are you sure you want to delete this database configuration?')) {
-                        databases = databases.filter(d => d.id !== id);
-                        renderTable();
-                        updateStats();
-                    }
-                });
-            });
+        if (!roles.length) {
+            // demo data
+            roles = [
+                { id: 1, name: 'Admin', description: 'Full system access', status: 'active', configured: true, createdOn: new Date('2025-01-15').toISOString() },
+                { id: 2, name: 'Analyst', description: 'Can view reports and analytics', status: 'active', configured: true, createdOn: new Date('2025-02-10').toISOString() },
+                { id: 3, name: 'Viewer', description: 'Read-only access', status: 'inactive', configured: false, createdOn: new Date('2025-03-01').toISOString() }
+            ];
+            saveRoles();
         }
-
-        // Modal handling
-        const modal = document.getElementById('dbModal');
-        const modalTitle = document.getElementById('modalTitle');
-        const dbForm = document.getElementById('dbForm');
-        const editDBId = document.getElementById('editDBId');
-        const dbType = document.getElementById('dbType');
-        const dbName = document.getElementById('dbName');
-        const host = document.getElementById('host');
-        const port = document.getElementById('port');
-        const username = document.getElementById('username');
-        const password = document.getElementById('password');
-        const schema = document.getElementById('schema');
-        const status = document.getElementById('status');
-        const closeModalBtn = document.getElementById('closeModalBtn');
-        const cancelModalBtn = document.getElementById('cancelModalBtn');
-        const addDBBtn = document.getElementById('addDBBtn');
-
-        function openAddModal() {
-            modalTitle.innerText = 'Add Database Configuration';
-            editDBId.value = '';
-            dbType.value = 'MySQL';
-            dbName.value = '';
-            host.value = '';
-            port.value = '';
-            username.value = '';
-            password.value = '';
-            schema.value = '';
-            status.value = 'active';
-            modal.classList.add('active');
-        }
-
-        function openEditModal(db) {
-            modalTitle.innerText = 'Edit Database Configuration';
-            editDBId.value = db.id;
-            dbType.value = db.dbType;
-            dbName.value = db.dbName;
-            host.value = db.host;
-            port.value = db.port;
-            username.value = db.username || '';
-            password.value = db.password || '';
-            schema.value = db.schema || '';
-            status.value = db.status;
-            modal.classList.add('active');
-        }
-
-        function closeModal() {
-            modal.classList.remove('active');
-        }
-
-        addDBBtn.addEventListener('click', openAddModal);
-        closeModalBtn.addEventListener('click', closeModal);
-        cancelModalBtn.addEventListener('click', closeModal);
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) closeModal();
-        });
-
-        // Password toggle
-        const togglePassword = document.getElementById('togglePassword');
-        togglePassword.addEventListener('click', function() {
-            const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
-            password.setAttribute('type', type);
-            this.classList.toggle('fa-eye');
-            this.classList.toggle('fa-eye-slash');
-        });
-
-        dbForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const id = editDBId.value;
-            const newDB = {
-                dbType: dbType.value,
-                dbName: dbName.value.trim(),
-                host: host.value.trim(),
-                port: port.value.trim(),
-                username: username.value.trim(),
-                password: password.value,
-                schema: schema.value.trim(),
-                status: status.value
-            };
-            if (id) {
-                // Edit existing
-                const index = databases.findIndex(d => d.id == id);
-                if (index !== -1) {
-                    databases[index] = { ...databases[index], ...newDB };
-                }
-            } else {
-                // Add new
-                const newId = databases.length ? Math.max(...databases.map(d => d.id)) + 1 : 6;
-                databases.push({ id: newId, ...newDB });
-            }
-            renderTable();
-            updateStats();
-            closeModal();
-        });
-
-        // Event listeners for filters and search
-        document.getElementById('searchInput').addEventListener('input', renderTable);
-        document.getElementById('statusFilter').addEventListener('change', renderTable);
-        document.getElementById('typeFilter').addEventListener('change', renderTable);
-
-        // Initial render
         renderTable();
-        updateStats();
-    })();
+    }
+
+    function saveRoles() {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(roles));
+    }
+
+    // Render table with search filter
+    function renderTable() {
+        const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+        const filtered = roles.filter(role => 
+            role.name.toLowerCase().includes(searchTerm) || 
+            role.description.toLowerCase().includes(searchTerm)
+        );
+        const tbody = document.getElementById('tableBody');
+        tbody.innerHTML = '';
+        filtered.forEach(role => {
+            const row = `
+                <tr>
+                    <td>${escapeHtml(role.name)}</td>
+                    <td>${escapeHtml(role.description)}</td>
+                    <td><span class="status-badge ${role.status === 'active' ? 'active' : 'inactive'}">${role.status === 'active' ? 'Active' : 'Inactive'}</span></td>
+                    <td><span class="status-badge ${role.configured ? 'active' : 'inactive'}">${role.configured ? 'Yes' : 'No'}</span></td>
+                    <td>${formatDate(role.createdOn)}</td>
+                    <td class="action-icons">
+                        <button class="action-icon edit" data-id="${role.id}"><i class="fas fa-edit"></i></button>
+                        <button class="action-icon deactivate" data-id="${role.id}"><i class="fas fa-power-off"></i></button>
+                        <button class="action-icon delete" data-id="${role.id}"><i class="fas fa-trash-alt"></i></button>
+                    </td>
+                </tr>
+            `;
+            tbody.insertAdjacentHTML('beforeend', row);
+        });
+        // attach event listeners to action icons
+        document.querySelectorAll('.edit').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const id = parseInt(btn.dataset.id);
+                editRole(id);
+            });
+        });
+        document.querySelectorAll('.deactivate').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const id = parseInt(btn.dataset.id);
+                toggleStatus(id);
+            });
+        });
+        document.querySelectorAll('.delete').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const id = parseInt(btn.dataset.id);
+                if (confirm('Delete this role?')) {
+                    roles = roles.filter(r => r.id !== id);
+                    saveRoles();
+                    renderTable();
+                }
+            });
+        });
+    }
+
+    // Toggle status (active/inactive)
+    function toggleStatus(id) {
+        const role = roles.find(r => r.id === id);
+        if (role) {
+            role.status = role.status === 'active' ? 'inactive' : 'active';
+            saveRoles();
+            renderTable();
+        }
+    }
+
+    // Edit role
+    function editRole(id) {
+        const role = roles.find(r => r.id === id);
+        if (role) {
+            document.getElementById('editRoleId').value = role.id;
+            document.getElementById('roleName').value = role.name;
+            document.getElementById('roleDescription').value = role.description;
+            document.getElementById('roleActive').checked = role.status === 'active';
+            document.getElementById('roleConfigured').checked = role.configured;
+            document.getElementById('modalTitle').innerText = 'Edit Role';
+            document.getElementById('roleModal').classList.add('active');
+        }
+    }
+
+    // Form submission (create/edit)
+    const roleForm = document.getElementById('roleForm');
+    roleForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const id = document.getElementById('editRoleId').value;
+        const name = document.getElementById('roleName').value.trim();
+        const description = document.getElementById('roleDescription').value.trim();
+        const active = document.getElementById('roleActive').checked;
+        const configured = document.getElementById('roleConfigured').checked;
+
+        if (!name || !description) {
+            alert('Please fill all required fields.');
+            return;
+        }
+
+        if (id) {
+            // update existing
+            const index = roles.findIndex(r => r.id == id);
+            if (index !== -1) {
+                roles[index] = {
+                    ...roles[index],
+                    name,
+                    description,
+                    status: active ? 'active' : 'inactive',
+                    configured
+                };
+            }
+        } else {
+            // create new
+            const newId = roles.length ? Math.max(...roles.map(r => r.id)) + 1 : 1;
+            roles.push({
+                id: newId,
+                name,
+                description,
+                status: active ? 'active' : 'inactive',
+                configured,
+                createdOn: new Date().toISOString()
+            });
+        }
+        saveRoles();
+        renderTable();
+        closeModal();
+        alert('Role saved!');
+    });
+
+    // Modal controls
+    function openCreateModal() {
+        document.getElementById('editRoleId').value = '';
+        document.getElementById('roleName').value = '';
+        document.getElementById('roleDescription').value = '';
+        document.getElementById('roleActive').checked = false;
+        document.getElementById('roleConfigured').checked = false;
+        document.getElementById('modalTitle').innerText = 'Create Role';
+        document.getElementById('roleModal').classList.add('active');
+    }
+    function closeModal() {
+        document.getElementById('roleModal').classList.remove('active');
+    }
+    document.getElementById('createRoleBtn').addEventListener('click', openCreateModal);
+    document.getElementById('closeModalBtn').addEventListener('click', closeModal);
+    document.getElementById('cancelModalBtn').addEventListener('click', closeModal);
+    // close on overlay click
+    document.getElementById('roleModal').addEventListener('click', (e) => {
+        if (e.target === document.getElementById('roleModal')) closeModal();
+    });
+
+    // Approve Role button -> redirect to RoleDrafts.html
+    document.getElementById('approveRoleBtn').addEventListener('click', () => {
+        window.location.href = 'RoleDrafts.html';
+    });
+
+    // Search filter
+    document.getElementById('searchInput').addEventListener('input', renderTable);
+
+    // Helper escape
+    function escapeHtml(str) {
+        if (!str) return '';
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
+    }
 
     // Date/Time for top bar
     function updateDateTime() {
@@ -1020,6 +927,9 @@
         });
         document.getElementById('datetime').innerText = formatted;
     }
+
+    // Initialize
+    loadRoles();
     updateDateTime();
     setInterval(updateDateTime, 1000);
 </script>

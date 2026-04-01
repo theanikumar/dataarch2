@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DataAArch · Role Drafts</title>
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f0f5fa;
+            color: #1e293b;
+        }
+
+        /* ========== LAYOUT WITH SIDEBAR ========== */
+        .app-layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* ========== SIDEBAR (same as other pages) ========== */
+        .sidebar {
+            width: 280px;
+            background: #ffffff;
+            box-shadow: 2px 0 16px rgba(0, 20, 30, 0.06);
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid #e6edf4;
+            height: 100vh;
+            position: sticky;
+            top: 0;
+            overflow-y: auto;
+            padding: 2rem 1rem 1.5rem 1.2rem;
+        }
+
+        .sidebar-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 2.2rem;
+            padding-left: 0.4rem;
+        }
+
+        .sidebar-logo i {
+            font-size: 2rem;
+            color: #1f4e85;
+        }
+
+        .sidebar-logo span {
+            font-weight: 600;
+            font-size: 1.4rem;
+            color: #0b2d4f;
+            letter-spacing: -0.3px;
+        }
+
+        .nav-group {
+            margin-bottom: 2rem;
+        }
+
+        .nav-group-title {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            color: #7b91aa;
+            padding: 0 0.8rem 0.5rem 0.8rem;
+            border-bottom: 1px solid #eaf0f7;
+            margin-bottom: 0.6rem;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 0.7rem 1rem;
+            margin: 2px 0;
+            border-radius: 12px;
+            color: #2f4b6e;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.15s ease;
+            cursor: default;
+        }
+
+        .nav-item i {
+            width: 22px;
+            font-size: 1.2rem;
+            color: #6f8db0;
+        }
+
+        .nav-item.active {
+            background: #e9f2fc;
+            color: #0c2d4e;
+            font-weight: 600;
+        }
+
+        .nav-item.active i {
+            color: #1f4e85;
+        }
+
+        .nav-item:hover:not(.active) {
+            background: #f5faff;
+            color: #1a3b5c;
+        }
+
+        .sub-group-head {
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: #1b3d60;
+            padding: 0.7rem 1rem 0.2rem 2.2rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .sub-group-head i {
+            font-size: 0.9rem;
+            color: #557ca5;
+            width: 20px;
+        }
+
+        .nav-sub {
+            list-style: none;
+            margin-left: 2rem;
+            padding-left: 0.5rem;
+            border-left: 1px dashed #cdddec;
+            margin-bottom: 0.8rem;
+        }
+
+        .nav-sub li {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0.55rem 1rem 0.55rem 0.8rem;
+            font-size: 0.9rem;
+            color: #456786;
+            border-radius: 10px;
+        }
+
+        .nav-sub li:hover {
+            background: #f4f9ff;
+            color: #1c3e60;
+        }
+
+        .divider {
+            height: 1px;
+            background: linear-gradient(to right, #dee9f2, transparent);
+            margin: 0.8rem 0 1.2rem 0;
+        }
+
+        .sidebar-footer {
+            margin-top: auto;
+            font-size: 0.8rem;
+            color: #8da2be;
+            padding: 1rem 0.8rem 0.2rem;
+            border-top: 1px solid #eaf0f8;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .sidebar-footer i {
+            font-size: 0.55rem;
+            color: #3ba55d;
+        }
+
+        /* ========== MAIN CONTENT ========== */
+        .main-content {
+            flex: 1;
+            overflow-x: auto;
+        }
+
+        .dashboard {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1.8rem 2rem;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .page-title h1 {
+            font-weight: 700;
+            font-size: 2rem;
+            color: #0b2b4f;
+            letter-spacing: -0.02em;
+        }
+
+        .page-title p {
+            color: #4a5a72;
+            font-size: 0.9rem;
+            margin-top: 4px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            background: white;
+            padding: 0.5rem 1.5rem 0.5rem 1rem;
+            border-radius: 60px;
+            box-shadow: 0 10px 20px -10px rgba(0,32,64,0.15);
+        }
+
+        .user-details {
+            text-align: right;
+        }
+
+        .user-name {
+            font-weight: 700;
+            color: #0b2b4f;
+        }
+
+        .datetime {
+            font-size: 0.8rem;
+            color: #5e7392;
+        }
+
+        .avatar {
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            background: linear-gradient(145deg, #0b2b4f, #1e4a7a);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        /* ========== TABLE CARD ========== */
+        .table-card {
+            background: white;
+            border-radius: 28px;
+            padding: 1.5rem 1.8rem;
+            box-shadow: 0 20px 30px -12px rgba(11,43,79,0.08);
+            border: 1px solid #eaf0f8;
+        }
+
+        .table-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .table-header h2 {
+            font-weight: 700;
+            color: #1c3f5c;
+            font-size: 1.3rem;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .search-wrapper {
+            display: flex;
+            align-items: center;
+            background: #f1f6fd;
+            border-radius: 40px;
+            padding: 0.3rem 0.3rem 0.3rem 1.2rem;
+            border: 1px solid #d4e2f0;
+        }
+
+        .search-wrapper i {
+            color: #7b98b3;
+            font-size: 0.9rem;
+        }
+
+        .search-wrapper input {
+            border: none;
+            background: transparent;
+            padding: 0.5rem 0.8rem;
+            outline: none;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            width: 200px;
+        }
+
+        .btn-secondary {
+            background: #f1f6fd;
+            border: 1px solid #d4e2f0;
+            border-radius: 40px;
+            padding: 0.6rem 1.4rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #1e4a7a;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-secondary:hover {
+            background: #e2ecf9;
+            transform: translateY(-2px);
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 800px;
+        }
+
+        th {
+            text-align: left;
+            padding: 1rem 0.5rem 1rem 0;
+            font-weight: 600;
+            font-size: 0.8rem;
+            color: #5e7392;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            border-bottom: 2px solid #e2ecf9;
+        }
+
+        td {
+            padding: 1rem 0.5rem 1rem 0;
+            border-bottom: 1px solid #edf2f9;
+            color: #1f3a5f;
+            font-weight: 500;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 0.25rem 0.9rem;
+            border-radius: 40px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        .status-badge.pending {
+            background: #fff3d8;
+            color: #b65f22;
+        }
+
+        .action-icons {
+            display: flex;
+            gap: 0.8rem;
+        }
+        .action-icon {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #7b98b3;
+            transition: color 0.2s;
+            font-size: 1rem;
+        }
+        .action-icon.approve:hover {
+            color: #1f7840;
+        }
+        .action-icon.delete:hover {
+            color: #c44536;
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 3rem;
+            color: #8aa0bc;
+            font-style: italic;
+        }
+
+        .nav-links{
+            text-decoration: none;
+        }
+
+    </style>
+</head>
+<body>
+<div class="app-layout">
+    <!-- SIDEBAR (Role Drafts – but keep Role Configuration active in sidebar? Actually we show this as a separate page, so we can keep Role Configuration as active to indicate we are within role management.) -->
+    <aside class="sidebar">
+        <div class="sidebar-logo">
+            <i class="fas fa-cubes"></i>
+            <span>DataAArch</span>
+        </div>
+
+        <!-- Dashboard -->
+        <a class="nav-item active" href="dashboard.html" data-page="dashboard.html">
+            <i class="fas fa-tachometer-alt"></i> Dashboard
+        </a>
+
+        <!-- Configurations -->
+        <div class="nav-group">
+            <div class="nav-group-title">Configurations</div>
+            <a class="nav-item nav-links" href="userlist3.html" data-page="userlist3.html"><i class="fas fa-user-cog"></i> User Configuration</a>
+            <a class="nav-item nav-links" href="roleConfig.html" data-page="roleConfig.html"><i class="fas fa-user-tag"></i> Role Configuration</a>
+            <a class="nav-item nav-links" href="mailConfig.html" data-page="mailConfig.html"><i class="fas fa-envelope-open-text"></i> Email Template Configuration</a>
+            <a class="nav-item nav-links" href="sanderMailConfig.html" data-page="sanderMailConfig.html"><i class="fas fa-paper-plane"></i> Sender Email Configuration</a>
+        </div>
+
+        <!-- Role Management -->
+        <div class="nav-group">
+            <div class="nav-group-title">Role Management Group</div>
+            <a class="nav-item nav-links" href="roleMan.html" data-page="roleMan.html"><i class="fas fa-shield-alt"></i> Role Management</a>
+        </div>
+
+        <!-- Enterprise Master Data -->
+        <div class="nav-group">
+            <div class="nav-group-title">Enterprise Master Data Group</div>
+            <a class="nav-item nav-links" href="bankingMaster.html" data-page="bankingMaster.html"><i class="fas fa-university"></i> Bank Master</a>
+            <a class="nav-item nav-links" href="userFieldConfig.html" data-page="userFieldConfig.html"><i class="fas fa-users-cog"></i> User Master</a>
+            <a class="nav-item nav-links" href="maskingMaster.html" data-page="maskingMaster.html"><i class="fas fa-mask"></i> Masking Master</a>
+        </div>
+
+        <!-- Execution Group with nested items -->
+        <div class="nav-group">
+            <div class="nav-group-title">Execution Group</div>
+            <!-- File server Source -->
+            <div class="sub-group-head"><i class="fas fa-folder-open"></i> File server Source</div>
+            <ul class="nav-sub">
+                <li><a href="serverConfig.html" class="navlinks" data-page="serverConfig.html"><i class="fas fa-server"></i> Server Configuration</a></li>
+                <!--<li><a href="userFieldConfig.html" data-page="userFieldConfig.html"><i class="fas fa-file-alt"></i> Configure Source File</a></li>-->
+            </ul>
+            <!-- DB Source -->
+            <div class="sub-group-head"><i class="fas fa-database"></i> DB Source</div>
+            <ul class="nav-sub">
+                <li><a href="dbConfig.html" class="navlinks" data-page="dbConfig.html"><i class="fas fa-cog"></i> DB Config</a></li>
+                <!--<li><a href="report.html" data-page="report.html"><i class="fas fa-file-code"></i> Config DB File</a></li>-->
+            </ul>
+
+            <div class="sub-group-head"><i class="fas fa-database"></i> Reports</div>
+            <ul class="nav-sub">
+                <!--<li><a href="dbConfig.html" data-page="dbConfig.html"><i class="fas fa-cog"></i> DB Config</a></li>-->
+                <li><a href="report.html" class="navlinks" data-page="report.html"><i class="fas fa-file-code"></i> Reports</a></li>
+            </ul>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Footer status -->
+        <div class="sidebar-footer">
+            <i class="fas fa-circle"></i> All systems operational
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+        <div class="dashboard">
+            <!-- TOP BAR -->
+            <div class="top-bar">
+                <div class="page-title">
+                    <h1>Role Drafts</h1>
+                    <p>Review and approve pending role requests</p>
+                </div>
+                <div class="user-info">
+                    <div class="user-details">
+                        <div class="user-name" id="username">Jane Reyes</div>
+                        <div class="datetime" id="datetime"></div>
+                    </div>
+                    <div class="avatar">JR</div>
+                </div>
+            </div>
+
+            <!-- TABLE CARD -->
+            <div class="table-card">
+                <div class="table-header">
+                    <h2><i class="fas fa-clock"></i> Pending Approvals</h2>
+                    <div class="action-buttons">
+                        <div class="search-wrapper">
+                            <i class="fas fa-search"></i>
+                            <input type="text" id="searchInput" placeholder="Search drafts...">
+                        </div>
+                        <button class="btn-secondary" id="backBtn"><i class="fas fa-arrow-left"></i> Back to Role Configuration</button>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table id="draftsTable">
+                        <thead>
+                            <tr>
+                                <th>Role Name</th>
+                                <th>Description</th>
+                                <th>Requested On</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </thead>
+                        <tbody id="tableBody">
+                            <!-- populated by JS -->
+                        </tbody>
+                     </table>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<script>
+    // Storage keys (must match role configuration page)
+    const DRAFTS_KEY = 'roleDrafts';
+    const ROLES_KEY = 'roleConfigurations';
+
+    let drafts = [];
+
+    // Helper: format date
+    function formatDate(dateString) {
+        if (!dateString) return '-';
+        const date = new Date(dateString);
+        return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+    }
+
+    // Load drafts from localStorage
+    function loadDrafts() {
+        const saved = localStorage.getItem(DRAFTS_KEY);
+        if (saved) {
+            try {
+                drafts = JSON.parse(saved);
+            } catch(e) {}
+        }
+        if (!drafts.length) {
+            // demo data
+            drafts = [
+                { id: 1, name: 'Supervisor', description: 'Can approve transactions and manage users', requestedOn: new Date('2025-03-28').toISOString(), status: 'pending' },
+                { id: 2, name: 'DataSteward', description: 'Responsible for data quality and masking', requestedOn: new Date('2025-03-29').toISOString(), status: 'pending' },
+                { id: 3, name: 'Auditor', description: 'Read-only access to all logs and reports', requestedOn: new Date('2025-03-30').toISOString(), status: 'pending' }
+            ];
+            saveDrafts();
+        }
+        renderTable();
+    }
+
+    function saveDrafts() {
+        localStorage.setItem(DRAFTS_KEY, JSON.stringify(drafts));
+    }
+
+    // Load existing roles from main configuration
+    function getRoles() {
+        const saved = localStorage.getItem(ROLES_KEY);
+        if (saved) {
+            try {
+                return JSON.parse(saved);
+            } catch(e) {}
+        }
+        return [];
+    }
+
+    function saveRoles(roles) {
+        localStorage.setItem(ROLES_KEY, JSON.stringify(roles));
+    }
+
+    // Render table with search filter
+    function renderTable() {
+        const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+        const filtered = drafts.filter(draft => 
+            draft.name.toLowerCase().includes(searchTerm) || 
+            draft.description.toLowerCase().includes(searchTerm)
+        );
+        const tbody = document.getElementById('tableBody');
+        tbody.innerHTML = '';
+        if (filtered.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="5" class="no-data">No pending role requests.</td></tr>';
+            return;
+        }
+        filtered.forEach(draft => {
+            const row = `
+                <tr>
+                    <td>${escapeHtml(draft.name)}</td>
+                    <td>${escapeHtml(draft.description)}</td>
+                    <td>${formatDate(draft.requestedOn)}</td>
+                    <td><span class="status-badge pending">Pending</span></td>
+                    <td class="action-icons">
+                        <button class="action-icon approve" data-id="${draft.id}"><i class="fas fa-check-circle"></i></button>
+                        <button class="action-icon delete" data-id="${draft.id}"><i class="fas fa-trash-alt"></i></button>
+                     </td>
+                 </tr>
+            `;
+            tbody.insertAdjacentHTML('beforeend', row);
+        });
+        // attach event listeners
+        document.querySelectorAll('.approve').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const id = parseInt(btn.dataset.id);
+                approveDraft(id);
+            });
+        });
+        document.querySelectorAll('.delete').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const id = parseInt(btn.dataset.id);
+                if (confirm('Delete this draft request?')) {
+                    deleteDraft(id);
+                }
+            });
+        });
+    }
+
+    function approveDraft(id) {
+        const draft = drafts.find(d => d.id === id);
+        if (!draft) return;
+        // Move draft to roles list
+        const roles = getRoles();
+        const newRoleId = roles.length ? Math.max(...roles.map(r => r.id)) + 1 : 1;
+        const newRole = {
+            id: newRoleId,
+            name: draft.name,
+            description: draft.description,
+            status: 'active',          // new role active by default
+            configured: false,         // not yet configured (admin can later set)
+            createdOn: new Date().toISOString()
+        };
+        roles.push(newRole);
+        saveRoles(roles);
+        // Remove from drafts
+        drafts = drafts.filter(d => d.id !== id);
+        saveDrafts();
+        renderTable();
+        alert(`Role "${draft.name}" has been approved and added to the role list.`);
+    }
+
+    function deleteDraft(id) {
+        drafts = drafts.filter(d => d.id !== id);
+        saveDrafts();
+        renderTable();
+    }
+
+    // Escape HTML
+    function escapeHtml(str) {
+        if (!str) return '';
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
+    }
+
+    // Back button: redirect to role configuration page
+    document.getElementById('backBtn').addEventListener('click', () => {
+        window.location.href = 'role_configuration.html';
+    });
+
+    // Search filter
+    document.getElementById('searchInput').addEventListener('input', renderTable);
+
+    // Date/Time for top bar
+    function updateDateTime() {
+        const now = new Date();
+        const formatted = now.toLocaleString('en-US', { 
+            weekday: 'short', year: 'numeric', month: 'short', day: 'numeric',
+            hour: '2-digit', minute: '2-digit', second: '2-digit'
+        });
+        document.getElementById('datetime').innerText = formatted;
+    }
+
+    // Initialize
+    loadDrafts();
+    updateDateTime();
+    setInterval(updateDateTime, 1000);
+</script>
+</body>
+</html>

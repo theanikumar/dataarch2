@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DataAArch · Role Configuration</title>
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f0f5fa;
+            color: #1e293b;
+        }
+
+        /* ========== LAYOUT WITH SIDEBAR ========== */
+        .app-layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* ========== SIDEBAR ========== */
+        .sidebar {
+            width: 280px;
+            background: #ffffff;
+            box-shadow: 2px 0 16px rgba(0, 20, 30, 0.06);
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid #e6edf4;
+            height: 100vh;
+            position: sticky;
+            top: 0;
+            overflow-y: auto;
+            padding: 2rem 1rem 1.5rem 1.2rem;
+        }
+
+        .sidebar-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 2.2rem;
+            padding-left: 0.4rem;
+        }
+
+        .sidebar-logo i {
+            font-size: 2rem;
+            color: #1f4e85;
+        }
+
+        .sidebar-logo span {
+            font-weight: 600;
+            font-size: 1.4rem;
+            color: #0b2d4f;
+            letter-spacing: -0.3px;
+        }
+
+        .nav-group {
+            margin-bottom: 2rem;
+        }
+
+        .nav-group-title {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            color: #7b91aa;
+            padding: 0 0.8rem 0.5rem 0.8rem;
+            border-bottom: 1px solid #eaf0f7;
+            margin-bottom: 0.6rem;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 0.7rem 1rem;
+            margin: 2px 0;
+            border-radius: 12px;
+            color: #2f4b6e;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.15s ease;
+            cursor: default;
+        }
+
+        .nav-item i {
+            width: 22px;
+            font-size: 1.2rem;
+            color: #6f8db0;
+        }
+
+        .nav-item.active {
+            background: #e9f2fc;
+            color: #0c2d4e;
+            font-weight: 600;
+        }
+
+        .nav-item.active i {
+            color: #1f4e85;
+        }
+
+        .nav-item:hover:not(.active) {
+            background: #f5faff;
+            color: #1a3b5c;
+        }
+
+        .sub-group-head {
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: #1b3d60;
+            padding: 0.7rem 1rem 0.2rem 2.2rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .sub-group-head i {
+            font-size: 0.9rem;
+            color: #557ca5;
+            width: 20px;
+        }
+
+        .nav-sub {
+            list-style: none;
+            margin-left: 2rem;
+            padding-left: 0.5rem;
+            border-left: 1px dashed #cdddec;
+            margin-bottom: 0.8rem;
+        }
+
+        .nav-sub li {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0.55rem 1rem 0.55rem 0.8rem;
+            font-size: 0.9rem;
+            color: #456786;
+            border-radius: 10px;
+        }
+
+        .nav-sub li:hover {
+            background: #f4f9ff;
+            color: #1c3e60;
+        }
+
+        .divider {
+            height: 1px;
+            background: linear-gradient(to right, #dee9f2, transparent);
+            margin: 0.8rem 0 1.2rem 0;
+        }
+
+        .sidebar-footer {
+            margin-top: auto;
+            font-size: 0.8rem;
+            color: #8da2be;
+            padding: 1rem 0.8rem 0.2rem;
+            border-top: 1px solid #eaf0f8;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .sidebar-footer i {
+            font-size: 0.55rem;
+            color: #3ba55d;
+        }
+
+        /* ========== MAIN CONTENT ========== */
+        .main-content {
+            flex: 1;
+            overflow-x: auto;
+        }
+
+        .dashboard {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1.8rem 2rem;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .page-title h1 {
+            font-weight: 700;
+            font-size: 2rem;
+            color: #0b2b4f;
+            letter-spacing: -0.02em;
+        }
+
+        .page-title p {
+            color: #4a5a72;
+            font-size: 0.9rem;
+            margin-top: 4px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            background: white;
+            padding: 0.5rem 1.5rem 0.5rem 1rem;
+            border-radius: 60px;
+            box-shadow: 0 10px 20px -10px rgba(0,32,64,0.15);
+        }
+
+        .user-details {
+            text-align: right;
+        }
+
+        .user-name {
+            font-weight: 700;
+            color: #0b2b4f;
+        }
+
+        .datetime {
+            font-size: 0.8rem;
+            color: #5e7392;
+        }
+
+        .avatar {
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            background: linear-gradient(145deg, #0b2b4f, #1e4a7a);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        /* ========== TABS ========== */
+        .tabs-container {
+            background: white;
+            border-radius: 28px;
+            padding: 1.5rem 1.8rem;
+            box-shadow: 0 20px 30px -12px rgba(11,43,79,0.08);
+            border: 1px solid #eaf0f8;
+            margin-bottom: 2rem;
+        }
+
+        .tabs-header {
+            display: flex;
+            gap: 1rem;
+            border-bottom: 2px solid #e2ecf9;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            padding: 0.8rem 1.2rem;
+            font-weight: 600;
+            font-size: 1rem;
+            color: #5e7392;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+        }
+        .tab-btn.active {
+            color: #1e4a7a;
+        }
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #1e4a7a;
+        }
+        .tab-btn:hover {
+            color: #1e4a7a;
+        }
+
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Search bar inside tabs */
+        .tab-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .tab-header h3 {
+            font-weight: 700;
+            color: #1c3f5c;
+            font-size: 1.2rem;
+        }
+        .search-wrapper {
+            display: flex;
+            align-items: center;
+            background: #f1f6fd;
+            border-radius: 40px;
+            padding: 0.3rem 0.3rem 0.3rem 1.2rem;
+            border: 1px solid #d4e2f0;
+        }
+        .search-wrapper i {
+            color: #7b98b3;
+            font-size: 0.9rem;
+        }
+        .search-wrapper input {
+            border: none;
+            background: transparent;
+            padding: 0.5rem 0.8rem;
+            outline: none;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            width: 200px;
+        }
+
+        /* Card grid */
+        .roles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+        }
+        .role-card {
+            background: white;
+            border-radius: 24px;
+            padding: 1.2rem;
+            border: 1px solid #eaf0f8;
+            box-shadow: 0 8px 16px -8px rgba(0,0,0,0.05);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .role-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 24px -12px rgba(11,43,79,0.12);
+        }
+        .role-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.8rem;
+        }
+        .role-name {
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: #0b2b4f;
+        }
+        .role-id {
+            font-size: 0.7rem;
+            color: #7b98b3;
+            background: #f1f6fd;
+            padding: 0.2rem 0.6rem;
+            border-radius: 40px;
+        }
+        .role-description {
+            color: #4f6582;
+            font-size: 0.9rem;
+            margin: 0.8rem 0;
+            line-height: 1.4;
+        }
+        .role-badge {
+            display: inline-block;
+            padding: 0.2rem 0.8rem;
+            border-radius: 40px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .badge-configured {
+            background: #e0f2e9;
+            color: #1f7840;
+        }
+        .badge-not-configured {
+            background: #fff3d8;
+            color: #b65f22;
+        }
+        .badge-active {
+            background: #e0f2e9;
+            color: #1f7840;
+        }
+        .badge-inactive {
+            background: #ffe8e8;
+            color: #b3261e;
+        }
+        .role-footer {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 1rem;
+            padding-top: 0.8rem;
+            border-top: 1px solid #edf2f9;
+        }
+        .view-btn {
+            background: #f1f6fd;
+            border: 1px solid #d4e2f0;
+            border-radius: 40px;
+            padding: 0.4rem 1.2rem;
+            font-weight: 600;
+            font-size: 0.8rem;
+            color: #1e4a7a;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .view-btn:hover {
+            background: #e2ecf9;
+        }
+        .last-updated {
+            font-size: 0.7rem;
+            color: #8aa0bc;
+            margin-top: 0.5rem;
+        }
+        .no-data {
+            text-align: center;
+            padding: 2rem;
+            color: #8aa0bc;
+            font-style: italic;
+            grid-column: 1 / -1;
+        }
+
+        .nav-links{
+            text-decoration: none;
+        }
+
+    </style>
+</head>
+<body>
+<div class="app-layout">
+    <!-- SIDEBAR (Role Configuration active) -->
+    <aside class="sidebar">
+        <div class="sidebar-logo">
+            <i class="fas fa-cubes"></i>
+            <span>DataAArch</span>
+        </div>
+
+        <!-- Dashboard -->
+        <a class="nav-item active" href="dashboard.html" data-page="dashboard.html">
+            <i class="fas fa-tachometer-alt"></i> Dashboard
+        </a>
+
+        <!-- Configurations -->
+        <div class="nav-group">
+            <div class="nav-group-title">Configurations</div>
+            <a class="nav-item nav-links" href="userlist3.html" data-page="userlist3.html"><i class="fas fa-user-cog"></i> User Configuration</a>
+            <a class="nav-item nav-links" href="roleConfig.html" data-page="roleConfig.html"><i class="fas fa-user-tag"></i> Role Configuration</a>
+            <a class="nav-item nav-links" href="mailConfig.html" data-page="mailConfig.html"><i class="fas fa-envelope-open-text"></i> Email Template Configuration</a>
+            <a class="nav-item nav-links" href="sanderMailConfig.html" data-page="sanderMailConfig.html"><i class="fas fa-paper-plane"></i> Sender Email Configuration</a>
+        </div>
+
+        <!-- Role Management -->
+        <div class="nav-group">
+            <div class="nav-group-title">Role Management Group</div>
+            <a class="nav-item nav-links" href="roleMan.html" data-page="roleMan.html"><i class="fas fa-shield-alt"></i> Role Management</a>
+        </div>
+
+        <!-- Enterprise Master Data -->
+        <div class="nav-group">
+            <div class="nav-group-title">Enterprise Master Data Group</div>
+            <a class="nav-item nav-links" href="bankingMaster.html" data-page="bankingMaster.html"><i class="fas fa-university"></i> Bank Master</a>
+            <a class="nav-item nav-links" href="userFieldConfig.html" data-page="userFieldConfig.html"><i class="fas fa-users-cog"></i> User Master</a>
+            <a class="nav-item nav-links" href="maskingMaster.html" data-page="maskingMaster.html"><i class="fas fa-mask"></i> Masking Master</a>
+        </div>
+
+        <!-- Execution Group with nested items -->
+        <div class="nav-group">
+            <div class="nav-group-title">Execution Group</div>
+            <!-- File server Source -->
+            <div class="sub-group-head"><i class="fas fa-folder-open"></i> File server Source</div>
+            <ul class="nav-sub">
+                <li><a href="serverConfig.html" class="navlinks" data-page="serverConfig.html"><i class="fas fa-server"></i> Server Configuration</a></li>
+                <!--<li><a href="userFieldConfig.html" data-page="userFieldConfig.html"><i class="fas fa-file-alt"></i> Configure Source File</a></li>-->
+            </ul>
+            <!-- DB Source -->
+            <div class="sub-group-head"><i class="fas fa-database"></i> DB Source</div>
+            <ul class="nav-sub">
+                <li><a href="dbConfig.html" class="navlinks" data-page="dbConfig.html"><i class="fas fa-cog"></i> DB Config</a></li>
+                <!--<li><a href="report.html" data-page="report.html"><i class="fas fa-file-code"></i> Config DB File</a></li>-->
+            </ul>
+
+            <div class="sub-group-head"><i class="fas fa-database"></i> Reports</div>
+            <ul class="nav-sub">
+                <!--<li><a href="dbConfig.html" data-page="dbConfig.html"><i class="fas fa-cog"></i> DB Config</a></li>-->
+                <li><a href="report.html" class="navlinks" data-page="report.html"><i class="fas fa-file-code"></i> Reports</a></li>
+            </ul>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Footer status -->
+        <div class="sidebar-footer">
+            <i class="fas fa-circle"></i> All systems operational
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+        <div class="dashboard">
+            <!-- TOP BAR -->
+            <div class="top-bar">
+                <div class="page-title">
+                    <h1>Role Configuration</h1>
+                    <p>Manage roles and permissions</p>
+                </div>
+                <div class="user-info">
+                    <div class="user-details">
+                        <div class="user-name" id="username">Jane Reyes</div>
+                        <div class="datetime" id="datetime"></div>
+                    </div>
+                    <div class="avatar">JR</div>
+                </div>
+            </div>
+
+            <!-- TABS -->
+            <div class="tabs-container">
+                <div class="tabs-header">
+                    <button class="tab-btn active" data-tab="available">Available Roles <span id="availableCount"></span></button>
+                    <button class="tab-btn" data-tab="configured">Configured Roles <span id="configuredCount"></span></button>
+                    <button class="tab-btn" data-tab="notconfigured">Not Configured Roles <span id="notConfiguredCount"></span></button>
+                </div>
+
+                <!-- Available Roles Tab -->
+                <div id="availableTab" class="tab-content active">
+                    <div class="tab-header">
+                        <h3><i class="fas fa-list"></i> All Available Roles</h3>
+                        <div class="search-wrapper">
+                            <i class="fas fa-search"></i>
+                            <input type="text" id="searchAvailable" placeholder="Search roles...">
+                        </div>
+                    </div>
+                    <div id="availableGrid" class="roles-grid"></div>
+                </div>
+
+                <!-- Configured Roles Tab -->
+                <div id="configuredTab" class="tab-content">
+                    <div class="tab-header">
+                        <h3><i class="fas fa-check-circle"></i> Configured Roles</h3>
+                        <div class="search-wrapper">
+                            <i class="fas fa-search"></i>
+                            <input type="text" id="searchConfigured" placeholder="Search roles...">
+                        </div>
+                    </div>
+                    <div id="configuredGrid" class="roles-grid"></div>
+                </div>
+
+                <!-- Not Configured Roles Tab -->
+                <div id="notConfiguredTab" class="tab-content">
+                    <div class="tab-header">
+                        <h3><i class="fas fa-clock"></i> Not Configured Roles</h3>
+                        <div class="search-wrapper">
+                            <i class="fas fa-search"></i>
+                            <input type="text" id="searchNotConfigured" placeholder="Search roles...">
+                        </div>
+                    </div>
+                    <div id="notConfiguredGrid" class="roles-grid"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<script>
+    // ========== MOCK ROLE DATA (same as previous role_configuration page) ==========
+    const STORAGE_KEY = 'roleConfigurations';
+    let roles = [];
+
+    function loadRoles() {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (saved) {
+            try {
+                roles = JSON.parse(saved);
+            } catch(e) {}
+        }
+        if (!roles.length) {
+            // demo data
+            roles = [
+                { id: 1, name: 'Admin', description: 'Full system access', status: 'active', configured: true, createdOn: '2025-01-15T10:00:00.000Z', lastUpdated: '2026-02-13T17:23:00.000Z' },
+                { id: 2, name: 'Analyst', description: 'Can view reports and analytics', status: 'active', configured: true, createdOn: '2025-02-10T09:30:00.000Z', lastUpdated: '2026-03-01T14:20:00.000Z' },
+                { id: 3, name: 'Viewer', description: 'Read-only access', status: 'inactive', configured: false, createdOn: '2025-03-01T11:45:00.000Z', lastUpdated: null },
+                { id: 4, name: 'Supervisor', description: 'Can approve transactions and manage users', status: 'active', configured: false, createdOn: '2025-03-28T08:00:00.000Z', lastUpdated: null },
+                { id: 5, name: 'DataSteward', description: 'Responsible for data quality and masking', status: 'active', configured: false, createdOn: '2025-03-29T10:15:00.000Z', lastUpdated: null }
+            ];
+            saveRoles();
+        }
+        renderTabs();
+    }
+
+    function saveRoles() {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(roles));
+    }
+
+    function formatDateTime(dateString) {
+        if (!dateString) return '';
+        const date = new Date(dateString);
+        return date.toLocaleString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false });
+    }
+
+    // Render functions for each tab
+    function renderAvailableRoles(searchTerm = '') {
+        const available = roles.filter(r => true); // all roles are available, we just filter by search
+        const filtered = available.filter(r => r.name.toLowerCase().includes(searchTerm) || r.description.toLowerCase().includes(searchTerm));
+        const grid = document.getElementById('availableGrid');
+        document.getElementById('availableCount').innerHTML = `(${filtered.length})`;
+        if (filtered.length === 0) {
+            grid.innerHTML = '<div class="no-data">No roles found.</div>';
+            return;
+        }
+        grid.innerHTML = filtered.map(role => `
+            <div class="role-card">
+                <div class="role-header">
+                    <span class="role-name">${escapeHtml(role.name)}</span>
+                    <span class="role-id">ID: ${role.id}</span>
+                </div>
+                <div class="role-description">${escapeHtml(role.description)}</div>
+                <div>
+                    ${role.configured ? '<span class="role-badge badge-configured">Configured</span>' : '<span class="role-badge badge-not-configured">Not Configured</span>'}
+                    ${role.status === 'active' ? '<span class="role-badge badge-active">Active</span>' : '<span class="role-badge badge-inactive">Inactive</span>'}
+                </div>
+                <div class="role-footer">
+                    <button class="view-btn" data-id="${role.id}">View</button>
+                </div>
+            </div>
+        `).join('');
+        attachViewListeners();
+    }
+
+    function renderConfiguredRoles(searchTerm = '') {
+        const configured = roles.filter(r => r.configured === true);
+        const filtered = configured.filter(r => r.name.toLowerCase().includes(searchTerm) || r.description.toLowerCase().includes(searchTerm));
+        const grid = document.getElementById('configuredGrid');
+        document.getElementById('configuredCount').innerHTML = `(${filtered.length})`;
+        if (filtered.length === 0) {
+            grid.innerHTML = '<div class="no-data">No configured roles found.</div>';
+            return;
+        }
+        grid.innerHTML = filtered.map(role => `
+            <div class="role-card">
+                <div class="role-header">
+                    <span class="role-name">${escapeHtml(role.name)}</span>
+                    <span class="role-id">ID: ${role.id}</span>
+                </div>
+                <div class="role-description">${escapeHtml(role.description)}</div>
+                <div>
+                    <span class="role-badge badge-configured">Configured</span>
+                    ${role.status === 'active' ? '<span class="role-badge badge-active">Active</span>' : '<span class="role-badge badge-inactive">Inactive</span>'}
+                </div>
+                <div class="last-updated">Last updated: ${role.lastUpdated ? formatDateTime(role.lastUpdated) : 'Never'}</div>
+                <div class="role-footer">
+                    <button class="view-btn" data-id="${role.id}">View</button>
+                </div>
+            </div>
+        `).join('');
+        attachViewListeners();
+    }
+
+    function renderNotConfiguredRoles(searchTerm = '') {
+        const notConfigured = roles.filter(r => r.configured === false);
+        const filtered = notConfigured.filter(r => r.name.toLowerCase().includes(searchTerm) || r.description.toLowerCase().includes(searchTerm));
+        const grid = document.getElementById('notConfiguredGrid');
+        document.getElementById('notConfiguredCount').innerHTML = `(${filtered.length})`;
+        if (filtered.length === 0) {
+            grid.innerHTML = '<div class="no-data">No unconfigured roles found.</div>';
+            return;
+        }
+        grid.innerHTML = filtered.map(role => `
+            <div class="role-card">
+                <div class="role-header">
+                    <span class="role-name">${escapeHtml(role.name)}</span>
+                    <span class="role-id">ID: ${role.id}</span>
+                </div>
+                <div class="role-description">${escapeHtml(role.description)}</div>
+                <div>
+                    <span class="role-badge badge-not-configured">Not Configured</span>
+                    ${role.status === 'active' ? '<span class="role-badge badge-active">Active</span>' : '<span class="role-badge badge-inactive">Inactive</span>'}
+                </div>
+                <div class="role-footer">
+                    <button class="view-btn" data-id="${role.id}">View</button>
+                </div>
+            </div>
+        `).join('');
+        attachViewListeners();
+    }
+
+    function attachViewListeners() {
+        document.querySelectorAll('.view-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const id = btn.dataset.id;
+                window.location.href = `viewRole.html?id=${id}`;
+            });
+        });
+    }
+
+    // Tab switching logic
+    function initTabs() {
+        const tabs = document.querySelectorAll('.tab-btn');
+        const contents = document.querySelectorAll('.tab-content');
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const target = tab.dataset.tab;
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                contents.forEach(c => c.classList.remove('active'));
+                if (target === 'available') document.getElementById('availableTab').classList.add('active');
+                if (target === 'configured') document.getElementById('configuredTab').classList.add('active');
+                if (target === 'notconfigured') document.getElementById('notConfiguredTab').classList.add('active');
+                // re-render active tab to ensure fresh search (search inputs may have values from previous tab)
+                const searchAvailable = document.getElementById('searchAvailable').value.toLowerCase();
+                const searchConfigured = document.getElementById('searchConfigured').value.toLowerCase();
+                const searchNot = document.getElementById('searchNotConfigured').value.toLowerCase();
+                if (target === 'available') renderAvailableRoles(searchAvailable);
+                if (target === 'configured') renderConfiguredRoles(searchConfigured);
+                if (target === 'notconfigured') renderNotConfiguredRoles(searchNot);
+            });
+        });
+    }
+
+    function renderTabs() {
+        // initial render
+        renderAvailableRoles('');
+        renderConfiguredRoles('');
+        renderNotConfiguredRoles('');
+    }
+
+    // Search listeners
+    document.getElementById('searchAvailable').addEventListener('input', (e) => {
+        renderAvailableRoles(e.target.value.toLowerCase());
+    });
+    document.getElementById('searchConfigured').addEventListener('input', (e) => {
+        renderConfiguredRoles(e.target.value.toLowerCase());
+    });
+    document.getElementById('searchNotConfigured').addEventListener('input', (e) => {
+        renderNotConfiguredRoles(e.target.value.toLowerCase());
+    });
+
+    function escapeHtml(str) {
+        if (!str) return '';
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
+    }
+
+    // Date/Time for top bar
+    function updateDateTime() {
+        const now = new Date();
+        const formatted = now.toLocaleString('en-US', { 
+            weekday: 'short', year: 'numeric', month: 'short', day: 'numeric',
+            hour: '2-digit', minute: '2-digit', second: '2-digit'
+        });
+        document.getElementById('datetime').innerText = formatted;
+    }
+
+    // Initialize
+    loadRoles();
+    initTabs();
+    updateDateTime();
+    setInterval(updateDateTime, 1000);
+</script>
+</body>
+</html>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DataAArch · Bank Master</title>
+    <title>DataAArch · Masking Master</title>
     <!-- Fonts & Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -26,7 +26,7 @@
             min-height: 100vh;
         }
 
-        /* ========== SIDEBAR (unchanged) ========== */
+        /* ========== SIDEBAR (consistent with previous) ========== */
         .sidebar {
             width: 280px;
             background: #ffffff;
@@ -87,17 +87,8 @@
             font-weight: 500;
             font-size: 0.95rem;
             transition: all 0.15s ease;
-            cursor: pointer; text-decoration: none;
+            cursor: default;
         }
-        .nav-sub a {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            width: 100%;
-            color: inherit;
-            text-decoration: none;
-        }
-
 
         .nav-item i {
             width: 22px;
@@ -250,20 +241,28 @@
             font-size: 1.2rem;
         }
 
-        /* ========== BANK CARDS SECTION ========== */
-        .banks-header {
+        /* ========== TABLE CARD ========== */
+        .table-card {
+            background: white;
+            border-radius: 28px;
+            padding: 1.5rem 1.8rem;
+            box-shadow: 0 20px 30px -12px rgba(11,43,79,0.08);
+            border: 1px solid #eaf0f8;
+        }
+
+        .table-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 1.8rem;
+            margin-bottom: 1.5rem;
             flex-wrap: wrap;
             gap: 1rem;
         }
 
-        .banks-header h2 {
+        .table-header h2 {
             font-weight: 700;
             color: #1c3f5c;
-            font-size: 1.4rem;
+            font-size: 1.3rem;
         }
 
         .search-add {
@@ -296,123 +295,89 @@
             width: 200px;
         }
 
-        .add-bank-btn {
+        .create-btn {
             background: #1e4a7a;
             border: none;
             border-radius: 40px;
-            padding: 0.7rem 1.8rem;
+            padding: 0.6rem 1.4rem;
             font-weight: 600;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             color: white;
             cursor: pointer;
             display: inline-flex;
             align-items: center;
-            gap: 0.6rem;
-            box-shadow: 0 8px 16px -6px #1e4a7a;
+            gap: 0.5rem;
             transition: all 0.2s;
         }
-
-        .add-bank-btn:hover {
+        .create-btn:hover {
             background: #123b66;
             transform: translateY(-2px);
         }
 
-        /* Bank cards grid */
-        .banks-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 1.8rem;
+        .table-responsive {
+            overflow-x: auto;
         }
 
-        .bank-card {
-            background: white;
-            border-radius: 28px;
-            overflow: hidden;
-            box-shadow: 0 20px 30px -12px rgba(11,43,79,0.08);
-            border: 1px solid #eaf0f8;
-            transition: transform 0.2s, box-shadow 0.2s;
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 700px;
         }
 
-        .bank-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 25px 35px -12px rgba(11,43,79,0.15);
+        th {
+            text-align: left;
+            padding: 1rem 0.5rem 1rem 0;
+            font-weight: 600;
+            font-size: 0.8rem;
+            color: #5e7392;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            border-bottom: 2px solid #e2ecf9;
         }
 
-        .bank-card-bg {
-            height: 140px;
-            background-size: cover;
-            background-position: center;
+        td {
+            padding: 1rem 0.5rem 1rem 0;
+            border-bottom: 1px solid #edf2f9;
+            color: #1f3a5f;
+            font-weight: 500;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 0.25rem 0.9rem;
+            border-radius: 40px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        .status-badge.active {
+            background: #e0f2e9;
+            color: #1f7840;
+        }
+        .status-badge.inactive {
+            background: #ffe8e8;
+            color: #b3261e;
+        }
+
+        .action-icons {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-        }
-        /* overlay for better logo visibility */
-        .bank-card-bg::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: rgba(0,0,0,0.2);
-        }
-        .bank-logo {
-            background: rgba(255,255,255,0.95);
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-            z-index: 2;
-            overflow: hidden;
-        }
-        .bank-logo img {
-            max-width: 70%;
-            max-height: 70%;
-            object-fit: contain;
-        }
-
-        .bank-card-content {
-            padding: 1.5rem;
-        }
-
-        .bank-card-content h3 {
-            font-weight: 700;
-            font-size: 1.3rem;
-            color: #0b2b4f;
-            margin-bottom: 0.3rem;
-        }
-
-        .bank-card-footer {
-            display: flex;
-            justify-content: flex-end;
             gap: 0.8rem;
-            margin-top: 1rem;
-            padding-top: 0.8rem;
-            border-top: 1px solid #edf2f9;
         }
-
-        .bank-action-btn {
-            background: transparent;
+        .action-icon {
+            background: none;
             border: none;
-            font-size: 1rem;
             cursor: pointer;
             color: #7b98b3;
             transition: color 0.2s;
+            font-size: 1rem;
         }
-        .bank-action-btn.edit:hover {
+        .action-icon.edit:hover {
             color: #1e4a7a;
         }
-        .bank-action-btn.delete:hover {
-            color: #c44536;
+        .action-icon.deactivate:hover {
+            color: #e68a2e;
         }
-
-        .no-banks {
-            grid-column: 1 / -1;
-            text-align: center;
-            padding: 3rem;
-            color: #8aa0bc;
-            font-style: italic;
+        .action-icon.delete:hover {
+            color: #c44536;
         }
 
         /* ========== MODAL ========== */
@@ -440,7 +405,7 @@
             background: white;
             border-radius: 32px;
             width: 90%;
-            max-width: 550px;
+            max-width: 600px;
             max-height: 90vh;
             display: flex;
             flex-direction: column;
@@ -449,14 +414,8 @@
             overflow: hidden;
         }
         @keyframes modalSlideIn {
-            from {
-                transform: translateY(20px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
         }
         .modal-header {
             display: flex;
@@ -499,7 +458,7 @@
             margin-bottom: 0.4rem;
             letter-spacing: 0.3px;
         }
-        .form-group input, .form-group select {
+        .form-group select, .form-group input {
             width: 100%;
             background: #f8fcff;
             border: 1px solid #dde7f0;
@@ -510,28 +469,107 @@
             outline: none;
             transition: all 0.2s;
         }
-        .form-group input:focus, .form-group select:focus {
+        .form-group select:focus, .form-group input:focus {
             border-color: #1e4a7a;
             box-shadow: 0 0 0 3px rgba(30,74,122,0.1);
         }
-        .file-input-group {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
+        .search-column {
+            position: relative;
+            margin-bottom: 0.8rem;
         }
-        .file-input-group .file-preview {
-            margin-top: 0.3rem;
+        .search-column input {
+            width: 100%;
+            padding-right: 2rem;
+        }
+        .search-column i {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #7b98b3;
+        }
+        .columns-list {
+            background: #f8fcff;
+            border: 1px solid #dde7f0;
+            border-radius: 20px;
+            padding: 0.8rem;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        .column-item {
             display: flex;
             align-items: center;
-            gap: 1rem;
-            flex-wrap: wrap;
-        }
-        .file-preview img {
-            max-width: 80px;
-            max-height: 80px;
+            gap: 0.5rem;
+            padding: 0.4rem 0.5rem;
             border-radius: 12px;
+            transition: background 0.2s;
+        }
+        .column-item:hover {
+            background: #eef4ff;
+        }
+        .column-item input {
+            width: auto;
+            margin: 0;
+        }
+        .column-item label {
+            font-weight: 500;
+            font-size: 0.85rem;
+            color: #1f3a5f;
+            margin: 0;
+        }
+        .toggle-group {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #f8fcff;
             border: 1px solid #dde7f0;
-            object-fit: cover;
+            border-radius: 20px;
+            padding: 0.6rem 1rem;
+        }
+        .toggle-group label {
+            font-weight: 600;
+            font-size: 0.8rem;
+            text-transform: none;
+            margin-bottom: 0;
+        }
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 48px;
+            height: 24px;
+        }
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: 0.3s;
+            border-radius: 24px;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: 0.3s;
+            border-radius: 50%;
+        }
+        input:checked + .slider {
+            background-color: #1e4a7a;
+        }
+        input:checked + .slider:before {
+            transform: translateX(24px);
         }
         .form-actions {
             display: flex;
@@ -546,7 +584,7 @@
             color: white;
             border: none;
             border-radius: 40px;
-            padding: 0.7rem 1.8rem;
+            padding: 0.6rem 1.4rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s;
@@ -559,7 +597,7 @@
             background: #f1f6fd;
             border: 1px solid #d4e2f0;
             border-radius: 40px;
-            padding: 0.7rem 1.8rem;
+            padding: 0.6rem 1.4rem;
             font-weight: 600;
             color: #1e4a7a;
             cursor: pointer;
@@ -567,16 +605,6 @@
         }
         .btn-secondary:hover {
             background: #e2ecf9;
-        }
-
-        @media (max-width: 700px) {
-            .banks-header {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            .search-add {
-                justify-content: space-between;
-            }
         }
 
         .nav-links{
@@ -587,7 +615,7 @@
 </head>
 <body>
 <div class="app-layout">
-    <!-- SIDEBAR (Bank Master active) -->
+    <!-- SIDEBAR (Masking Master active) -->
     <aside class="sidebar">
         <div class="sidebar-logo">
             <i class="fas fa-cubes"></i>
@@ -659,8 +687,8 @@
             <!-- TOP BAR -->
             <div class="top-bar">
                 <div class="page-title">
-                    <h1>Bank Master</h1>
-                    <p>Manage banking institutions</p>
+                    <h1>Masking Master</h1>
+                    <p>Configure data masking rules for database tables</p>
                 </div>
                 <div class="user-info">
                     <div class="user-details">
@@ -671,53 +699,76 @@
                 </div>
             </div>
 
-            <!-- Banks Header with search and add button -->
-            <div class="banks-header">
-                <h2><i class="fas fa-university"></i> Banks</h2>
-                <div class="search-add">
-                    <div class="search-wrapper">
-                        <i class="fas fa-search"></i>
-                        <input type="text" id="searchBank" placeholder="Search banks...">
+            <!-- TABLE CARD -->
+            <div class="table-card">
+                <div class="table-header">
+                    <h2><i class="fas fa-mask"></i> Masking Rules</h2>
+                    <div class="search-add">
+                        <div class="search-wrapper">
+                            <i class="fas fa-search"></i>
+                            <input type="text" id="searchTable" placeholder="Search by table name...">
+                        </div>
+                        <button class="create-btn" id="createMaskBtn"><i class="fas fa-plus-circle"></i> Create</button>
                     </div>
-                    <button class="add-bank-btn" id="addBankBtn"><i class="fas fa-plus-circle"></i> Add Bank</button>
                 </div>
-            </div>
-
-            <!-- Bank Cards Grid -->
-            <div id="banksGrid" class="banks-grid">
-                <!-- Dynamic cards will appear here -->
+                <div class="table-responsive">
+                    <table id="maskingTable">
+                        <thead>
+                            <tr>
+                                <th>Table Name</th>
+                                <th>Masked Columns</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </thead>
+                        <tbody id="tableBody">
+                            <!-- populated by JS -->
+                        </tbody>
+                     </table>
+                </div>
             </div>
         </div>
     </main>
 </div>
 
-<!-- Modal for Add/Edit Bank -->
-<div id="bankModal" class="modal-overlay">
+<!-- CREATE/EDIT MODAL -->
+<div id="maskingModal" class="modal-overlay">
     <div class="modal-container">
         <div class="modal-header">
-            <h3 id="modalTitle">Add Bank</h3>
+            <h3 id="modalTitle">Create Masking Rule</h3>
             <button class="modal-close" id="closeModalBtn"><i class="fas fa-times"></i></button>
         </div>
         <div class="modal-body">
-            <form id="bankForm">
-                <input type="hidden" id="editBankId" value="">
+            <form id="maskingForm">
+                <input type="hidden" id="editId" value="">
                 <div class="form-group">
-                    <label>Bank Name *</label>
-                    <input type="text" id="bankName" required>
+                    <label>Select Table *</label>
+                    <select id="tableSelect" required>
+                        <option value="">-- Select Table --</option>
+                        <option value="Customer">Customer</option>
+                        <option value="Account">Account</option>
+                        <option value="Transaction">Transaction</option>
+                    </select>
                 </div>
-                <div class="form-group file-input-group">
-                    <label>Bank Logo *</label>
-                    <input type="file" id="bankLogoFile" accept="image/*" required>
-                    <div class="file-preview" id="logoPreview"></div>
+                <div class="form-group">
+                    <label>Select Columns to Mask *</label>
+                    <div class="search-column">
+                        <input type="text" id="searchColumn" placeholder="Search column...">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <div id="columnsList" class="columns-list">
+                        <!-- dynamic column checkboxes -->
+                    </div>
                 </div>
-                <div class="form-group file-input-group">
-                    <label>Bank Background *</label>
-                    <input type="file" id="bankBgFile" accept="image/*" required>
-                    <div class="file-preview" id="bgPreview"></div>
+                <div class="form-group toggle-group">
+                    <label>Status</label>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="statusActive">
+                        <span class="slider"></span>
+                    </label>
                 </div>
                 <div class="form-actions">
                     <button type="button" class="btn-secondary" id="cancelModalBtn">Cancel</button>
-                    <button type="submit" class="btn-primary">Save Bank</button>
+                    <button type="submit" class="btn-primary">Save Rule</button>
                 </div>
             </form>
         </div>
@@ -725,223 +776,232 @@
 </div>
 
 <script>
-    (function() {
-        // ---------- MOCK BANK DATA (with images as dataURLs) ----------
-        // Placeholder images (base64) – we'll generate simple ones for demo.
-        // In a real app, these would come from the server.
-        let banks = [
-            { id: 1, name: 'ABCoE Bank', logo: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"%3E%3Crect width="100" height="100" fill="%231e4a7a"/%3E%3Ctext x="50" y="55" font-size="40" text-anchor="middle" fill="white" font-family="Arial"%3EA%3C/text%3E%3C/svg%3E', bg: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 200"%3E%3Crect width="400" height="200" fill="%230b2b4f"/%3E%3C/svg%3E' },
-            { id: 2, name: 'Global Trust Bank', logo: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"%3E%3Crect width="100" height="100" fill="%232c3e66"/%3E%3Ctext x="50" y="55" font-size="40" text-anchor="middle" fill="white" font-family="Arial"%3EG%3C/text%3E%3C/svg%3E', bg: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 200"%3E%3Crect width="400" height="200" fill="%232c3e66"/%3E%3C/svg%3E' },
-            { id: 3, name: 'Metro Finance', logo: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"%3E%3Crect width="100" height="100" fill="%233a6ea5"/%3E%3Ctext x="50" y="55" font-size="40" text-anchor="middle" fill="white" font-family="Arial"%3EM%3C/text%3E%3C/svg%3E', bg: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 200"%3E%3Crect width="400" height="200" fill="%233a6ea5"/%3E%3C/svg%3E' },
-            { id: 4, name: 'First National Bank', logo: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"%3E%3Crect width="100" height="100" fill="%23225d8a"/%3E%3Ctext x="50" y="55" font-size="40" text-anchor="middle" fill="white" font-family="Arial"%3EF%3C/text%3E%3C/svg%3E', bg: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 200"%3E%3Crect width="400" height="200" fill="%23225d8a"/%3E%3C/svg%3E' }
-        ];
+    // ----- Mock table columns -----
+    const tableColumns = {
+        "Customer": ["customer_id", "full_name", "email", "phone", "address", "ssn", "dob", "credit_card"],
+        "Account": ["account_id", "customer_id", "account_number", "balance", "account_type", "opening_date"],
+        "Transaction": ["transaction_id", "account_id", "transaction_date", "amount", "description", "reference_number"]
+    };
 
-        // Helper to read file as dataURL
-        function readFileAsDataURL(file) {
-            return new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                reader.onload = () => resolve(reader.result);
-                reader.onerror = reject;
-                reader.readAsDataURL(file);
-            });
+    // Storage key
+    const STORAGE_KEY = 'maskingConfigurations';
+    let maskingConfigs = [];
+
+    // Load from localStorage
+    function loadConfigs() {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (saved) {
+            try {
+                maskingConfigs = JSON.parse(saved);
+            } catch(e) {}
         }
-
-        // Helper to render cards
-        function renderBanks() {
-            const searchTerm = document.getElementById('searchBank').value.toLowerCase();
-            const filtered = banks.filter(bank => bank.name.toLowerCase().includes(searchTerm));
-            const grid = document.getElementById('banksGrid');
-            grid.innerHTML = '';
-            if (filtered.length === 0) {
-                grid.innerHTML = '<div class="no-banks">No banks found. Click "Add Bank" to create one.</div>';
-                return;
-            }
-            filtered.forEach(bank => {
-                const card = document.createElement('div');
-                card.className = 'bank-card';
-                card.innerHTML = `
-                    <div class="bank-card-bg" style="background-image: url('https://cdnassets.hw.net/88/c5/381929774854a850e8f4f368bcd3/rp-1.jpg'); background-size: cover;">
-                        <div class="bank-logo">
-                            <img src="https://apmosys.com/wp-content/uploads/2022/07/cropped-WhatsApp-Image-2022-07-16-at-7.10.40-PM-1024x336.jpeg" alt=" logo">
-                        </div>
-                    </div>
-                    <div class="bank-card-content">
-                        <h3>${escapeHtml(bank.name)}</h3>
-                        <div class="bank-card-footer">
-                            <button class="bank-action-btn edit" data-id="${bank.id}"><i class="fas fa-edit"></i> Edit</button>
-                            <button class="bank-action-btn delete" data-id="${bank.id}"><i class="fas fa-trash-alt"></i> Delete</button>
-                        </div>
-                    </div>
-                `;
-                grid.appendChild(card);
-            });
-
-            // Attach event listeners to edit/delete buttons
-            document.querySelectorAll('.bank-action-btn.edit').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    const id = parseInt(btn.dataset.id);
-                    const bank = banks.find(b => b.id === id);
-                    if (bank) openEditModal(bank);
-                });
-            });
-            document.querySelectorAll('.bank-action-btn.delete').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    const id = parseInt(btn.dataset.id);
-                    if (confirm('Are you sure you want to delete this bank?')) {
-                        banks = banks.filter(b => b.id !== id);
-                        renderBanks();
-                    }
-                });
-            });
+        if (!maskingConfigs.length) {
+            // demo data
+            maskingConfigs = [
+                { id: 1, tableName: "Customer", maskedColumns: ["full_name", "email", "phone", "ssn"], status: "active" },
+                { id: 2, tableName: "Account", maskedColumns: ["account_number"], status: "active" },
+                { id: 3, tableName: "Transaction", maskedColumns: ["description", "reference_number"], status: "inactive" }
+            ];
+            saveConfigs();
         }
+        renderTable();
+    }
 
-        // Simple escape for XSS
-        function escapeHtml(str) {
-            return str.replace(/[&<>]/g, function(m) {
-                if (m === '&') return '&amp;';
-                if (m === '<') return '&lt;';
-                if (m === '>') return '&gt;';
-                return m;
-            });
-        }
+    function saveConfigs() {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(maskingConfigs));
+    }
 
-        // Modal handling
-        const modal = document.getElementById('bankModal');
-        const modalTitle = document.getElementById('modalTitle');
-        const bankForm = document.getElementById('bankForm');
-        const editBankId = document.getElementById('editBankId');
-        const bankName = document.getElementById('bankName');
-        const logoFileInput = document.getElementById('bankLogoFile');
-        const bgFileInput = document.getElementById('bankBgFile');
-        const logoPreview = document.getElementById('logoPreview');
-        const bgPreviewDiv = document.getElementById('bgPreview');
-        const closeModalBtn = document.getElementById('closeModalBtn');
-        const cancelModalBtn = document.getElementById('cancelModalBtn');
-        const addBankBtn = document.getElementById('addBankBtn');
-
-        // Preview handlers
-        function handleLogoPreview(file) {
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    logoPreview.innerHTML = `<img src="${e.target.result}" alt="Logo preview">`;
-                };
-                reader.readAsDataURL(file);
-            } else {
-                logoPreview.innerHTML = '';
-            }
-        }
-        function handleBgPreview(file) {
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    bgPreviewDiv.innerHTML = `<img src="${e.target.result}" alt="Background preview">`;
-                };
-                reader.readAsDataURL(file);
-            } else {
-                bgPreviewDiv.innerHTML = '';
-            }
-        }
-        logoFileInput.addEventListener('change', () => handleLogoPreview(logoFileInput.files[0]));
-        bgFileInput.addEventListener('change', () => handleBgPreview(bgFileInput.files[0]));
-
-        function openAddModal() {
-            modalTitle.innerText = 'Add Bank';
-            editBankId.value = '';
-            bankName.value = '';
-            logoFileInput.value = '';
-            bgFileInput.value = '';
-            logoPreview.innerHTML = '';
-            bgPreviewDiv.innerHTML = '';
-            modal.classList.add('active');
-        }
-
-        function openEditModal(bank) {
-            modalTitle.innerText = 'Edit Bank';
-            editBankId.value = bank.id;
-            bankName.value = bank.name;
-            // For existing banks, we don't have the file inputs pre-filled; we keep them empty.
-            // In a real app, you might want to show the existing images.
-            // For simplicity, we just clear file inputs and show no preview (user can re-upload to change).
-            logoFileInput.value = '';
-            bgFileInput.value = '';
-            logoPreview.innerHTML = '';
-            bgPreviewDiv.innerHTML = '';
-            // Optional: you could show existing images here (but they are already stored as dataURLs in bank object)
-            modal.classList.add('active');
-        }
-
-        function closeModal() {
-            modal.classList.remove('active');
-        }
-
-        addBankBtn.addEventListener('click', openAddModal);
-        closeModalBtn.addEventListener('click', closeModal);
-        cancelModalBtn.addEventListener('click', closeModal);
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) closeModal();
+    function renderTable() {
+        const searchTerm = document.getElementById('searchTable').value.toLowerCase();
+        const filtered = maskingConfigs.filter(cfg => cfg.tableName.toLowerCase().includes(searchTerm));
+        const tbody = document.getElementById('tableBody');
+        tbody.innerHTML = '';
+        filtered.forEach(config => {
+            const row = `
+                <tr>
+                    <td>${escapeHtml(config.tableName)}</td>
+                    <td>${escapeHtml(config.maskedColumns.join(', '))}</td>
+                    <td><span class="status-badge ${config.status === 'active' ? 'active' : 'inactive'}">${config.status === 'active' ? 'Active' : 'Inactive'}</span></td>
+                    <td class="action-icons">
+                        <button class="action-icon edit" data-id="${config.id}"><i class="fas fa-edit"></i></button>
+                        <button class="action-icon deactivate" data-id="${config.id}"><i class="fas fa-power-off"></i></button>
+                        <button class="action-icon delete" data-id="${config.id}"><i class="fas fa-trash-alt"></i></button>
+                    </td>
+                </tr>
+            `;
+            tbody.insertAdjacentHTML('beforeend', row);
         });
-
-        bankForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const id = editBankId.value;
-            const name = bankName.value.trim();
-            const logoFile = logoFileInput.files[0];
-            const bgFile = bgFileInput.files[0];
-
-            if (!name) {
-                alert('Please enter bank name.');
-                return;
-            }
-            if (!logoFile && !id) {
-                alert('Please upload a bank logo.');
-                return;
-            }
-            if (!bgFile && !id) {
-                alert('Please upload a bank background image.');
-                return;
-            }
-
-            let logoData = null;
-            let bgData = null;
-
-            if (logoFile) {
-                logoData = await readFileAsDataURL(logoFile);
-            }
-            if (bgFile) {
-                bgData = await readFileAsDataURL(bgFile);
-            }
-
-            if (id) {
-                // Edit existing: only update fields that have new files; otherwise keep old.
-                const index = banks.findIndex(b => b.id == id);
-                if (index !== -1) {
-                    const updated = { ...banks[index] };
-                    if (name) updated.name = name;
-                    if (logoData) updated.logo = logoData;
-                    if (bgData) updated.bg = bgData;
-                    banks[index] = updated;
+        // attach event listeners
+        document.querySelectorAll('.edit').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const id = parseInt(btn.dataset.id);
+                editConfig(id);
+            });
+        });
+        document.querySelectorAll('.deactivate').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const id = parseInt(btn.dataset.id);
+                toggleStatus(id);
+            });
+        });
+        document.querySelectorAll('.delete').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const id = parseInt(btn.dataset.id);
+                if (confirm('Delete this masking rule?')) {
+                    maskingConfigs = maskingConfigs.filter(c => c.id !== id);
+                    saveConfigs();
+                    renderTable();
                 }
-            } else {
-                // Add new
-                const newId = banks.length ? Math.max(...banks.map(b => b.id)) + 1 : 5;
-                banks.push({
-                    id: newId,
-                    name: name,
-                    logo: logoData,
-                    bg: bgData
-                });
-            }
-            renderBanks();
-            closeModal();
+            });
         });
+    }
 
-        // Search filter
-        document.getElementById('searchBank').addEventListener('input', renderBanks);
+    function toggleStatus(id) {
+        const config = maskingConfigs.find(c => c.id === id);
+        if (config) {
+            config.status = config.status === 'active' ? 'inactive' : 'active';
+            saveConfigs();
+            renderTable();
+        }
+    }
 
-        // Initial render
-        renderBanks();
-    })();
+    // Modal handling
+    const modal = document.getElementById('maskingModal');
+    const modalTitle = document.getElementById('modalTitle');
+    const maskingForm = document.getElementById('maskingForm');
+    const editIdInput = document.getElementById('editId');
+    const tableSelect = document.getElementById('tableSelect');
+    const columnsListDiv = document.getElementById('columnsList');
+    const searchColumnInput = document.getElementById('searchColumn');
+    const statusActive = document.getElementById('statusActive');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+    const cancelModalBtn = document.getElementById('cancelModalBtn');
+    const createMaskBtn = document.getElementById('createMaskBtn');
+
+    function updateColumnsList(selectedTable, selectedColumns = []) {
+        if (!selectedTable || !tableColumns[selectedTable]) {
+            columnsListDiv.innerHTML = '<div style="padding:1rem; text-align:center; color:#8aa0bc;">Select a table first</div>';
+            return;
+        }
+        const columns = tableColumns[selectedTable];
+        const searchTerm = searchColumnInput.value.toLowerCase();
+        const filteredColumns = columns.filter(col => col.toLowerCase().includes(searchTerm));
+        columnsListDiv.innerHTML = filteredColumns.map(col => `
+            <div class="column-item">
+                <input type="checkbox" id="col_${col}" value="${col}" ${selectedColumns.includes(col) ? 'checked' : ''}>
+                <label for="col_${col}">${escapeHtml(col)}</label>
+            </div>
+        `).join('');
+    }
+
+    function getSelectedColumns() {
+        const checkboxes = columnsListDiv.querySelectorAll('input[type="checkbox"]:checked');
+        return Array.from(checkboxes).map(cb => cb.value);
+    }
+
+    function openCreateModal() {
+        modalTitle.innerText = 'Create Masking Rule';
+        editIdInput.value = '';
+        tableSelect.value = '';
+        statusActive.checked = true;
+        columnsListDiv.innerHTML = '<div style="padding:1rem; text-align:center; color:#8aa0bc;">Select a table first</div>';
+        searchColumnInput.value = '';
+        modal.classList.add('active');
+    }
+
+    function editConfig(id) {
+        const config = maskingConfigs.find(c => c.id === id);
+        if (!config) return;
+        modalTitle.innerText = 'Edit Masking Rule';
+        editIdInput.value = config.id;
+        tableSelect.value = config.tableName;
+        statusActive.checked = config.status === 'active';
+        updateColumnsList(config.tableName, config.maskedColumns);
+        searchColumnInput.value = '';
+        modal.classList.add('active');
+    }
+
+    function closeModal() {
+        modal.classList.remove('active');
+    }
+
+    createMaskBtn.addEventListener('click', openCreateModal);
+    closeModalBtn.addEventListener('click', closeModal);
+    cancelModalBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+    });
+
+    tableSelect.addEventListener('change', () => {
+        const selectedTable = tableSelect.value;
+        const existingId = editIdInput.value;
+        let selectedColumns = [];
+        if (existingId) {
+            const config = maskingConfigs.find(c => c.id == existingId);
+            if (config && config.tableName === selectedTable) selectedColumns = config.maskedColumns;
+        }
+        updateColumnsList(selectedTable, selectedColumns);
+    });
+
+    searchColumnInput.addEventListener('input', () => {
+        const selectedTable = tableSelect.value;
+        if (selectedTable) {
+            const existingId = editIdInput.value;
+            let selectedColumns = [];
+            if (existingId) {
+                const config = maskingConfigs.find(c => c.id == existingId);
+                if (config && config.tableName === selectedTable) selectedColumns = config.maskedColumns;
+            }
+            updateColumnsList(selectedTable, selectedColumns);
+        }
+    });
+
+    maskingForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const id = editIdInput.value;
+        const tableName = tableSelect.value;
+        const maskedColumns = getSelectedColumns();
+        const status = statusActive.checked ? 'active' : 'inactive';
+
+        if (!tableName) {
+            alert('Please select a table.');
+            return;
+        }
+        if (maskedColumns.length === 0) {
+            alert('Please select at least one column to mask.');
+            return;
+        }
+
+        if (id) {
+            // update existing
+            const index = maskingConfigs.findIndex(c => c.id == id);
+            if (index !== -1) {
+                maskingConfigs[index] = { ...maskingConfigs[index], tableName, maskedColumns, status };
+            }
+        } else {
+            // create new
+            const newId = maskingConfigs.length ? Math.max(...maskingConfigs.map(c => c.id)) + 1 : 1;
+            maskingConfigs.push({ id: newId, tableName, maskedColumns, status });
+        }
+        saveConfigs();
+        renderTable();
+        closeModal();
+        alert('Masking rule saved!');
+    });
+
+    // Search filter for table list
+    document.getElementById('searchTable').addEventListener('input', renderTable);
+
+    // Helper
+    function escapeHtml(str) {
+        if (!str) return '';
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
+    }
 
     // Date/Time for top bar
     function updateDateTime() {
@@ -952,6 +1012,9 @@
         });
         document.getElementById('datetime').innerText = formatted;
     }
+
+    // Initialize
+    loadConfigs();
     updateDateTime();
     setInterval(updateDateTime, 1000);
 </script>

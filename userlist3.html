@@ -8,6 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
+        /* ========== All existing styles remain unchanged (only modals adjusted) ========== */
         * {
             margin: 0;
             padding: 0;
@@ -87,7 +88,8 @@
             font-weight: 500;
             font-size: 0.95rem;
             transition: all 0.15s ease;
-            cursor: pointer; text-decoration: none;
+            cursor: pointer;
+            text-decoration: none;
         }
         .nav-sub a {
             display: flex;
@@ -97,7 +99,6 @@
             color: inherit;
             text-decoration: none;
         }
-
 
         .nav-item i {
             width: 22px;
@@ -460,11 +461,23 @@
         .modal-container {
             background: white;
             border-radius: 32px;
-            width: 90%;
-            max-width: 400px;
+            display: flex;
+            flex-direction: column;
             box-shadow: 0 30px 50px -20px rgba(0,0,0,0.3);
             animation: modalSlideIn 0.2s ease-out;
             overflow: hidden;
+        }
+        /* Role modal (compact) */
+        .role-modal .modal-container {
+            width: 90%;
+            max-width: 400px;
+            max-height: 90vh;
+        }
+        /* Create user modal (wider) */
+        .create-user-modal .modal-container {
+            width: 90%;
+            max-width: 650px;
+            max-height: 90vh;
         }
         @keyframes modalSlideIn {
             from {
@@ -482,6 +495,7 @@
             align-items: center;
             padding: 1.5rem 1.8rem 0.8rem 1.8rem;
             border-bottom: 1px solid #edf2f9;
+            flex-shrink: 0;
         }
         .modal-header h3 {
             font-weight: 700;
@@ -501,7 +515,30 @@
         }
         .modal-body {
             padding: 1.5rem 1.8rem;
+            overflow-y: auto;
+            flex: 1;
         }
+        .modal-footer {
+            padding: 1rem 1.8rem 1.5rem;
+            border-top: 1px solid #edf2f9;
+            text-align: right;
+            flex-shrink: 0;
+        }
+        .modal-footer button {
+            background: #f1f6fd;
+            border: none;
+            border-radius: 30px;
+            padding: 0.5rem 1.8rem;
+            font-weight: 600;
+            color: #1e4a7a;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .modal-footer button:hover {
+            background: #e2ecf9;
+        }
+
+        /* Role specific content */
         .user-name-in-modal {
             font-weight: 700;
             color: #0b2b4f;
@@ -527,22 +564,117 @@
         .role-tag.analyst { background: #e0f2fe; color: #1f6b8a; }
         .role-tag.viewer { background: #e0f2e9; color: #1f7840; }
         .role-tag.archiver { background: #fff3d8; color: #b65f22; }
-        .modal-footer {
-            padding: 1rem 1.8rem 1.5rem;
-            border-top: 1px solid #edf2f9;
-            text-align: right;
+
+        /* Form styles for create user modal */
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem 1.5rem;
         }
-        .modal-footer button {
-            background: #f1f6fd;
+        .full-width {
+            grid-column: span 2;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+        .form-group label {
+            font-weight: 600;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: #4f6582;
+            letter-spacing: 0.3px;
+        }
+        .form-group input, .form-group select {
+            background: #f8fcff;
+            border: 1px solid #dde7f0;
+            border-radius: 20px;
+            padding: 0.7rem 1rem;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            outline: none;
+            transition: all 0.2s;
+        }
+        .form-group input:focus, .form-group select:focus {
+            border-color: #1e4a7a;
+            box-shadow: 0 0 0 3px rgba(30,74,122,0.1);
+        }
+        .form-group select[multiple] {
+            min-height: 110px;
+            padding: 0.5rem;
+        }
+        .form-group select[multiple] option {
+            padding: 0.5rem 0.8rem;
+            border-radius: 8px;
+            margin: 2px;
+        }
+        .form-group select[multiple] option:checked {
+            background: #1e4a7a linear-gradient(0deg, #1e4a7a 0%, #1e4a7a 100%);
+            color: white;
+        }
+        .branch-group {
+            display: flex;
+            gap: 0.8rem;
+            align-items: center;
+        }
+        .branch-group .form-group {
+            flex: 1;
+        }
+        .validate-btn {
+            background: #f0f7ff;
+            border: 1px solid #d4e2f0;
+            border-radius: 40px;
+            padding: 0.7rem 1.2rem;
+            font-weight: 600;
+            color: #1e4a7a;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.2s;
+            margin-top: 1.4rem;
+        }
+        .validate-btn:hover {
+            background: #e1efff;
+            border-color: #1e4a7a;
+        }
+        .branch-hint {
+            font-size: 0.7rem;
+            margin-top: 0.2rem;
+            padding-left: 0.5rem;
+        }
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid #e2ecf9;
+        }
+        .btn-primary {
+            background: #1e4a7a;
+            color: white;
             border: none;
-            border-radius: 30px;
-            padding: 0.5rem 1.8rem;
+            border-radius: 40px;
+            padding: 0.7rem 1.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-primary:hover {
+            background: #123b66;
+            transform: translateY(-2px);
+        }
+        .btn-secondary {
+            background: #f1f6fd;
+            border: 1px solid #d4e2f0;
+            border-radius: 40px;
+            padding: 0.7rem 1.8rem;
             font-weight: 600;
             color: #1e4a7a;
             cursor: pointer;
             transition: all 0.2s;
         }
-        .modal-footer button:hover {
+        .btn-secondary:hover {
             background: #e2ecf9;
         }
 
@@ -554,10 +686,24 @@
             .search-wrapper input {
                 width: 150px;
             }
-            .modal-container {
-                width: 90%;
-                margin: 1rem;
+            .form-grid {
+                grid-template-columns: 1fr;
             }
+            .full-width {
+                grid-column: span 1;
+            }
+        }
+
+        .nav-links {
+            text-decoration: none;
+        }
+        .navlinks {
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
         }
     </style>
 </head>
@@ -569,48 +715,58 @@
             <i class="fas fa-cubes"></i>
             <span>DataAArch</span>
         </div>
-        <a class="nav-item" href="dashboard.html" data-page="dashboard.html">
+
+        <!-- Dashboard -->
+        <a class="nav-item active" href="dashboard.html" data-page="dashboard.html">
             <i class="fas fa-tachometer-alt"></i> Dashboard
         </a>
+
+        <!-- Configurations -->
         <div class="nav-group">
             <div class="nav-group-title">Configurations</div>
-            <a class="nav-item active" href="userlist3.html" data-page="userlist3.html">
-                <i class="fas fa-user-cog"></i> User Configuration
-            </a>
-            <a class="nav-item" href="createUsre3.html" data-page="createUsre3.html">
-                <i class="fas fa-user-tag"></i> Role Configuration
-            </a>
-            <a class="nav-item" href="login.html" data-page="login.html">
-                <i class="fas fa-envelope-open-text"></i> Email Template Configuration
-            </a>
-            <a class="nav-item" href="report.html" data-page="report.html">
-                <i class="fas fa-paper-plane"></i> Sender Email Configuration
-            </a>
+            <a class="nav-item nav-links" href="userlist3.html" data-page="userlist3.html"><i class="fas fa-user-cog"></i> User Configuration</a>
+            <a class="nav-item nav-links" href="roleConfig.html" data-page="roleConfig.html"><i class="fas fa-user-tag"></i> Role Configuration</a>
+            <a class="nav-item nav-links" href="mailConfig.html" data-page="mailConfig.html"><i class="fas fa-envelope-open-text"></i> Email Template Configuration</a>
+            <a class="nav-item nav-links" href="sanderMailConfig.html" data-page="sanderMailConfig.html"><i class="fas fa-paper-plane"></i> Sender Email Configuration</a>
         </div>
+
+        <!-- Role Management -->
         <div class="nav-group">
             <div class="nav-group-title">Role Management Group</div>
-            <a class="nav-item" href="userFieldConfig.html" data-page="userFieldConfig.html"><i class="fas fa-shield-alt"></i> Role Management</a>
+            <a class="nav-item nav-links" href="roleMan.html" data-page="roleMan.html"><i class="fas fa-shield-alt"></i> Role Management</a>
         </div>
+
+        <!-- Enterprise Master Data -->
         <div class="nav-group">
             <div class="nav-group-title">Enterprise Master Data Group</div>
-            <a class="nav-item" href="bankingMaster.html" data-page="bankingMaster.html"><i class="fas fa-university"></i> Bank Master</a>
-            <a class="nav-item" href="userlist3.html" data-page="userlist3.html"><i class="fas fa-users-cog"></i> User Master</a>
-            <a class="nav-item" href="report.html" data-page="report.html"><i class="fas fa-mask"></i> Masking Master</a>
+            <a class="nav-item nav-links" href="bankingMaster.html" data-page="bankingMaster.html"><i class="fas fa-university"></i> Bank Master</a>
+            <a class="nav-item nav-links" href="userFieldConfig.html" data-page="userFieldConfig.html"><i class="fas fa-users-cog"></i> User Master</a>
+            <a class="nav-item nav-links" href="maskingMaster.html" data-page="maskingMaster.html"><i class="fas fa-mask"></i> Masking Master</a>
         </div>
+
+        <!-- Execution Group with nested items -->
         <div class="nav-group">
             <div class="nav-group-title">Execution Group</div>
+            <!-- File server Source -->
             <div class="sub-group-head"><i class="fas fa-folder-open"></i> File server Source</div>
             <ul class="nav-sub">
-                <li><a href="serverConfig.html" data-page="serverConfig.html"><i class="fas fa-server"></i> Server Configuration</a></li>
-                <li><a href="userFieldConfig.html" data-page="userFieldConfig.html"><i class="fas fa-file-alt"></i> Configure Source File</a></li>
+                <li><a href="serverConfig.html" class="navlinks" data-page="serverConfig.html"><i class="fas fa-server"></i> Server Configuration</a></li>
             </ul>
+            <!-- DB Source -->
             <div class="sub-group-head"><i class="fas fa-database"></i> DB Source</div>
             <ul class="nav-sub">
-                <li><a href="dbConfig.html" data-page="dbConfig.html"><i class="fas fa-cog"></i> DB Config</a></li>
-                <li><a href="report.html" data-page="report.html"><i class="fas fa-file-code"></i> Config DB File</a></li>
+                <li><a href="dbConfig.html" class="navlinks" data-page="dbConfig.html"><i class="fas fa-cog"></i> DB Config</a></li>
+            </ul>
+
+            <div class="sub-group-head"><i class="fas fa-database"></i> Reports</div>
+            <ul class="nav-sub">
+                <li><a href="report.html" class="navlinks" data-page="report.html"><i class="fas fa-file-code"></i> Reports</a></li>
             </ul>
         </div>
+
         <div class="divider"></div>
+
+        <!-- Footer status -->
         <div class="sidebar-footer">
             <i class="fas fa-circle"></i> All systems operational
         </div>
@@ -648,10 +804,9 @@
                 <div class="table-responsive">
                     <table id="usersTable">
                         <thead>
-                            <tr><th>Username</th><th>Email</th><th>Roles</th><th>Actions</th></tr>
-                        </thead>
+                            <tr><th>Username</th><th>Email</th><th>Roles</th><th>Actions</th> </thead>
                         <tbody id="tableBody"></tbody>
-                    </table>
+                      </table>
                 </div>
                 <div class="table-footer"><span id="userCount">0</span> active users</div>
             </div>
@@ -659,8 +814,8 @@
     </main>
 </div>
 
-<!-- MODAL (hidden) -->
-<div id="roleModal" class="modal-overlay">
+<!-- MODAL for viewing roles (role modal) -->
+<div id="roleModal" class="modal-overlay role-modal">
     <div class="modal-container">
         <div class="modal-header">
             <h3>User Roles</h3>
@@ -672,6 +827,70 @@
         </div>
         <div class="modal-footer">
             <button id="modalCloseFooter">Close</button>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL for Create User -->
+<div id="createUserModal" class="modal-overlay create-user-modal">
+    <div class="modal-container">
+        <div class="modal-header">
+            <h3>Create New User</h3>
+            <button class="modal-close" id="closeCreateModalBtn"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="modal-body">
+            <form id="createUserForm">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Username *</label>
+                        <input type="text" id="newUsername" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Employee ID *</label>
+                        <input type="text" id="empId" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Full Name *</label>
+                        <input type="text" id="fullName" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email *</label>
+                        <input type="email" id="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Mobile Number *</label>
+                        <input type="tel" id="mobile" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Password *</label>
+                        <input type="password" id="password" required>
+                    </div>
+                    <div class="form-group full-width">
+                        <div class="branch-group">
+                            <div class="form-group" style="flex:1">
+                                <label>Enter Branch ID *</label>
+                                <input type="text" id="branchId" placeholder="e.g., BR001" required>
+                            </div>
+                            <button type="button" class="validate-btn" id="validateBranchBtn">Validate</button>
+                        </div>
+                        <div class="branch-hint" id="branchHint"></div>
+                    </div>
+                    <div class="form-group full-width">
+                        <label>Select Roles * (multiple allowed)</label>
+                        <select multiple id="roleSelect" size="4" required>
+                            <option value="admin">Admin</option>
+                            <option value="analyst">Analyst</option>
+                            <option value="viewer">Viewer</option>
+                            <option value="archiver">Archiver</option>
+                        </select>
+                        <small style="color:#7b98b3; margin-top: 0.2rem;">Hold Ctrl/Cmd to select multiple roles</small>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" id="cancelCreateBtn">Cancel</button>
+                    <button type="submit" class="btn-primary">Create User</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
@@ -711,7 +930,7 @@
         }
 
         // ==================== MOCK USER DATA (full roles) ====================
-        const users = [
+        let users = [
             { username: 'jreyes', email: 'jane.reyes@bank.com', roles: ['admin', 'archiver', 'analyst'] },
             { username: 'mchen', email: 'ming.chen@bank.com', roles: ['analyst', 'viewer'] },
             { username: 'rkumar', email: 'raj.kumar@bank.com', roles: ['archiver'] },
@@ -744,13 +963,13 @@
 
                 const row = document.createElement('tr');
                 row.innerHTML = `
-                    <td>${user.username}</td>
-                    <td>${user.email}</td>
+                      <td>${user.username}</td>
+                      <td>${user.email}</td>
                     <td class="roles-cell">${rolesHtml}</td>
-                    <td>
+                      <td>
                         <button class="action-btn edit" onclick="alert('Edit user: ${user.username}')"><i class="fas fa-edit"></i></button>
                         <button class="action-btn delete" onclick="alert('Delete user: ${user.username}')"><i class="fas fa-trash-alt"></i></button>
-                    </td>
+                      </td>
                 `;
                 tbody.appendChild(row);
             });
@@ -763,19 +982,19 @@
                     const username = badge.dataset.username;
                     const email = badge.dataset.email;
                     const roles = JSON.parse(badge.dataset.roles);
-                    showModal(username, email, roles);
+                    showRoleModal(username, email, roles);
                 });
             });
         }
 
-        // ==================== MODAL LOGIC ====================
-        const modalOverlay = document.getElementById('roleModal');
+        // ==================== ROLE MODAL LOGIC ====================
+        const roleModalOverlay = document.getElementById('roleModal');
         const modalUserName = document.getElementById('modalUserName');
         const modalRolesList = document.getElementById('modalRolesList');
         const closeModalBtn = document.getElementById('closeModalBtn');
         const modalCloseFooter = document.getElementById('modalCloseFooter');
 
-        function showModal(username, email, roles) {
+        function showRoleModal(username, email, roles) {
             modalUserName.innerText = `${username} (${email})`;
             modalRolesList.innerHTML = '';
             roles.forEach(role => {
@@ -784,20 +1003,92 @@
                 tag.innerText = role.charAt(0).toUpperCase() + role.slice(1);
                 modalRolesList.appendChild(tag);
             });
-            modalOverlay.classList.add('active');
+            roleModalOverlay.classList.add('active');
         }
 
-        function closeModal() {
-            modalOverlay.classList.remove('active');
+        function closeRoleModal() {
+            roleModalOverlay.classList.remove('active');
         }
 
-        closeModalBtn.addEventListener('click', closeModal);
-        modalCloseFooter.addEventListener('click', closeModal);
-        modalOverlay.addEventListener('click', (e) => {
-            if (e.target === modalOverlay) closeModal();
+        closeModalBtn.addEventListener('click', closeRoleModal);
+        modalCloseFooter.addEventListener('click', closeRoleModal);
+        roleModalOverlay.addEventListener('click', (e) => {
+            if (e.target === roleModalOverlay) closeRoleModal();
         });
 
-        // ==================== SEARCH & CREATE ====================
+        // ==================== CREATE USER MODAL LOGIC ====================
+        const createModal = document.getElementById('createUserModal');
+        const openCreateBtn = document.getElementById('createUserBtn');
+        const closeCreateBtns = document.querySelectorAll('#closeCreateModalBtn, #cancelCreateBtn');
+        const validateBranchBtn = document.getElementById('validateBranchBtn');
+        const branchHint = document.getElementById('branchHint');
+        const createForm = document.getElementById('createUserForm');
+
+        function openCreateModal() {
+            createModal.classList.add('active');
+            branchHint.innerHTML = '';
+        }
+        function closeCreateModal() {
+            createModal.classList.remove('active');
+            createForm.reset();
+            branchHint.innerHTML = '';
+        }
+
+        openCreateBtn.addEventListener('click', openCreateModal);
+        closeCreateBtns.forEach(btn => btn.addEventListener('click', closeCreateModal));
+        createModal.addEventListener('click', (e) => {
+            if (e.target === createModal) closeCreateModal();
+        });
+
+        // Branch ID validation (demo)
+        validateBranchBtn.addEventListener('click', () => {
+            const branchId = document.getElementById('branchId').value.trim();
+            if (branchId === '') {
+                branchHint.innerHTML = 'Please enter a Branch ID';
+                branchHint.style.color = '#c44536';
+            } else if (branchId === 'BR001' || branchId === 'BR002' || branchId === 'BR003') {
+                branchHint.innerHTML = '✓ Branch ID is valid';
+                branchHint.style.color = '#1f7840';
+            } else {
+                branchHint.innerHTML = '✗ Branch ID not found';
+                branchHint.style.color = '#c44536';
+            }
+        });
+
+        // Form submission
+        createForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const username = document.getElementById('newUsername').value.trim();
+            const empId = document.getElementById('empId').value.trim();
+            const fullName = document.getElementById('fullName').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const mobile = document.getElementById('mobile').value.trim();
+            const password = document.getElementById('password').value;
+            const branchId = document.getElementById('branchId').value.trim();
+            const roleSelect = document.getElementById('roleSelect');
+            const selectedRoles = Array.from(roleSelect.selectedOptions).map(opt => opt.value);
+
+            if (!username || !empId || !fullName || !email || !mobile || !password || !branchId) {
+                alert('Please fill all required fields.');
+                return;
+            }
+            if (selectedRoles.length === 0) {
+                alert('Please select at least one role.');
+                return;
+            }
+
+            const newUser = {
+                username: username,
+                email: email,
+                roles: selectedRoles
+            };
+            users.push(newUser);
+            renderTable(users);
+            alert(`User "${username}" created successfully!`);
+            closeCreateModal();
+        });
+
+        // ==================== SEARCH ====================
         document.getElementById('searchInput').addEventListener('input', function(e) {
             const term = e.target.value.toLowerCase();
             const filtered = users.filter(user => 
@@ -807,8 +1098,6 @@
             );
             renderTable(filtered);
         });
-
-        document.getElementById('createUserBtn').addEventListener('click', () => alert('Create new user – this would open a form/modal.'));
 
         // Initial render
         renderTable(users);

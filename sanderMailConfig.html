@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DataAArch · Sender Email Configuration</title>
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f0f5fa;
+            color: #1e293b;
+        }
+
+        /* ========== LAYOUT WITH SIDEBAR ========== */
+        .app-layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* ========== SIDEBAR (matching previous) ========== */
+        .sidebar {
+            width: 280px;
+            background: #ffffff;
+            box-shadow: 2px 0 16px rgba(0, 20, 30, 0.06);
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid #e6edf4;
+            height: 100vh;
+            position: sticky;
+            top: 0;
+            overflow-y: auto;
+            padding: 2rem 1rem 1.5rem 1.2rem;
+        }
+
+        .sidebar-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 2.2rem;
+            padding-left: 0.4rem;
+        }
+
+        .sidebar-logo i {
+            font-size: 2rem;
+            color: #1f4e85;
+        }
+
+        .sidebar-logo span {
+            font-weight: 600;
+            font-size: 1.4rem;
+            color: #0b2d4f;
+            letter-spacing: -0.3px;
+        }
+
+        .nav-group {
+            margin-bottom: 2rem;
+        }
+
+        .nav-group-title {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            color: #7b91aa;
+            padding: 0 0.8rem 0.5rem 0.8rem;
+            border-bottom: 1px solid #eaf0f7;
+            margin-bottom: 0.6rem;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 0.7rem 1rem;
+            margin: 2px 0;
+            border-radius: 12px;
+            color: #2f4b6e;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.15s ease;
+            cursor: default;
+        }
+
+        .nav-item i {
+            width: 22px;
+            font-size: 1.2rem;
+            color: #6f8db0;
+        }
+
+        .nav-item.active {
+            background: #e9f2fc;
+            color: #0c2d4e;
+            font-weight: 600;
+        }
+
+        .nav-item.active i {
+            color: #1f4e85;
+        }
+
+        .nav-item:hover:not(.active) {
+            background: #f5faff;
+            color: #1a3b5c;
+        }
+
+        .sub-group-head {
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: #1b3d60;
+            padding: 0.7rem 1rem 0.2rem 2.2rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .sub-group-head i {
+            font-size: 0.9rem;
+            color: #557ca5;
+            width: 20px;
+        }
+
+        .nav-sub {
+            list-style: none;
+            margin-left: 2rem;
+            padding-left: 0.5rem;
+            border-left: 1px dashed #cdddec;
+            margin-bottom: 0.8rem;
+        }
+
+        .nav-sub li {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0.55rem 1rem 0.55rem 0.8rem;
+            font-size: 0.9rem;
+            color: #456786;
+            border-radius: 10px;
+        }
+
+        .nav-sub li:hover {
+            background: #f4f9ff;
+            color: #1c3e60;
+        }
+
+        .divider {
+            height: 1px;
+            background: linear-gradient(to right, #dee9f2, transparent);
+            margin: 0.8rem 0 1.2rem 0;
+        }
+
+        .sidebar-footer {
+            margin-top: auto;
+            font-size: 0.8rem;
+            color: #8da2be;
+            padding: 1rem 0.8rem 0.2rem;
+            border-top: 1px solid #eaf0f8;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .sidebar-footer i {
+            font-size: 0.55rem;
+            color: #3ba55d;
+        }
+
+        /* ========== MAIN CONTENT ========== */
+        .main-content {
+            flex: 1;
+            overflow-x: auto;
+        }
+
+        .dashboard {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1.8rem 2rem;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .page-title h1 {
+            font-weight: 700;
+            font-size: 2rem;
+            color: #0b2b4f;
+            letter-spacing: -0.02em;
+        }
+
+        .page-title p {
+            color: #4a5a72;
+            font-size: 0.9rem;
+            margin-top: 4px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            background: white;
+            padding: 0.5rem 1.5rem 0.5rem 1rem;
+            border-radius: 60px;
+            box-shadow: 0 10px 20px -10px rgba(0,32,64,0.15);
+        }
+
+        .user-details {
+            text-align: right;
+        }
+
+        .user-name {
+            font-weight: 700;
+            color: #0b2b4f;
+        }
+
+        .datetime {
+            font-size: 0.8rem;
+            color: #5e7392;
+        }
+
+        .avatar {
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            background: linear-gradient(145deg, #0b2b4f, #1e4a7a);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        /* ========== CARD STYLES ========== */
+        .card {
+            background: white;
+            border-radius: 28px;
+            padding: 1.5rem 1.8rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 20px 30px -12px rgba(11,43,79,0.08);
+            border: 1px solid #eaf0f8;
+        }
+        .card:last-child {
+            margin-bottom: 0;
+        }
+        .card-title {
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: #1c3f5c;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            border-left: 3px solid #1e4a7a;
+            padding-left: 0.8rem;
+        }
+        .card-title i {
+            color: #1e4a7a;
+            font-size: 1.2rem;
+        }
+
+        /* ========== FORM STYLES (grid layout) ========== */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.2rem 1.5rem;
+        }
+        .full-width {
+            grid-column: span 2;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+        .form-group label {
+            font-weight: 600;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: #4f6582;
+            letter-spacing: 0.3px;
+        }
+        .form-group input, .form-group select {
+            background: #f8fcff;
+            border: 1px solid #dde7f0;
+            border-radius: 20px;
+            padding: 0.7rem 1rem;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            outline: none;
+            transition: all 0.2s;
+        }
+        .form-group input:focus, .form-group select:focus {
+            border-color: #1e4a7a;
+            box-shadow: 0 0 0 3px rgba(30,74,122,0.1);
+        }
+        .toggle-group {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #f8fcff;
+            border: 1px solid #dde7f0;
+            border-radius: 20px;
+            padding: 0.6rem 1rem;
+        }
+        .toggle-group label {
+            font-weight: 600;
+            font-size: 0.8rem;
+            text-transform: none;
+            margin-bottom: 0;
+        }
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 48px;
+            height: 24px;
+        }
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: 0.3s;
+            border-radius: 24px;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: 0.3s;
+            border-radius: 50%;
+        }
+        input:checked + .slider {
+            background-color: #1e4a7a;
+        }
+        input:checked + .slider:before {
+            transform: translateX(24px);
+        }
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid #e2ecf9;
+        }
+        .btn-primary {
+            background: #1e4a7a;
+            color: white;
+            border: none;
+            border-radius: 40px;
+            padding: 0.7rem 1.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-primary:hover {
+            background: #123b66;
+            transform: translateY(-2px);
+        }
+        .btn-secondary {
+            background: #f1f6fd;
+            border: 1px solid #d4e2f0;
+            border-radius: 40px;
+            padding: 0.7rem 1.8rem;
+            font-weight: 600;
+            color: #1e4a7a;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-secondary:hover {
+            background: #e2ecf9;
+        }
+
+        /* ========== TABLE STYLES ========== */
+        .actions-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .actions-table th {
+            text-align: left;
+            padding: 0.8rem 0.5rem 0.8rem 0;
+            font-weight: 600;
+            font-size: 0.75rem;
+            color: #5e7392;
+            text-transform: uppercase;
+            border-bottom: 2px solid #e2ecf9;
+        }
+        .actions-table td {
+            padding: 0.8rem 0.5rem 0.8rem 0;
+            border-bottom: 1px solid #edf2f9;
+            color: #1f3a5f;
+            font-weight: 500;
+            font-size: 0.85rem;
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 0.25rem 0.9rem;
+            border-radius: 40px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        .status-badge.active {
+            background: #e0f2e9;
+            color: #1f7840;
+        }
+        .status-badge.inactive {
+            background: #ffe8e8;
+            color: #b3261e;
+        }
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+        .action-btn-icon {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #7b98b3;
+            transition: color 0.2s;
+            font-size: 1rem;
+        }
+        .action-btn-icon.edit:hover {
+            color: #1e4a7a;
+        }
+        .action-btn-icon.delete:hover {
+            color: #c44536;
+        }
+        .no-data {
+            text-align: center;
+            padding: 1.5rem;
+            color: #8aa0bc;
+            font-style: italic;
+        }
+
+        .nav-links{
+            text-decoration: none;
+        }
+        
+    </style>
+</head>
+<body>
+<div class="app-layout">
+    <!-- SIDEBAR (Sender Email Configuration active) -->
+    <aside class="sidebar">
+        <div class="sidebar-logo">
+            <i class="fas fa-cubes"></i>
+            <span>DataAArch</span>
+        </div>
+
+        <!-- Dashboard -->
+        <a class="nav-item active" href="dashboard.html" data-page="dashboard.html">
+            <i class="fas fa-tachometer-alt"></i> Dashboard
+        </a>
+
+        <!-- Configurations -->
+        <div class="nav-group">
+            <div class="nav-group-title">Configurations</div>
+            <a class="nav-item nav-links" href="userlist3.html" data-page="userlist3.html"><i class="fas fa-user-cog"></i> User Configuration</a>
+            <a class="nav-item nav-links" href="roleConfig.html" data-page="roleConfig.html"><i class="fas fa-user-tag"></i> Role Configuration</a>
+            <a class="nav-item nav-links" href="mailConfig.html" data-page="mailConfig.html"><i class="fas fa-envelope-open-text"></i> Email Template Configuration</a>
+            <a class="nav-item nav-links" href="sanderMailConfig.html" data-page="sanderMailConfig.html"><i class="fas fa-paper-plane"></i> Sender Email Configuration</a>
+        </div>
+
+        <!-- Role Management -->
+        <div class="nav-group">
+            <div class="nav-group-title">Role Management Group</div>
+            <a class="nav-item nav-links" href="roleMan.html" data-page="roleMan.html"><i class="fas fa-shield-alt"></i> Role Management</a>
+        </div>
+
+        <!-- Enterprise Master Data -->
+        <div class="nav-group">
+            <div class="nav-group-title">Enterprise Master Data Group</div>
+            <a class="nav-item nav-links" href="bankingMaster.html" data-page="bankingMaster.html"><i class="fas fa-university"></i> Bank Master</a>
+            <a class="nav-item nav-links" href="userFieldConfig.html" data-page="userFieldConfig.html"><i class="fas fa-users-cog"></i> User Master</a>
+            <a class="nav-item nav-links" href="maskingMaster.html" data-page="maskingMaster.html"><i class="fas fa-mask"></i> Masking Master</a>
+        </div>
+
+        <!-- Execution Group with nested items -->
+        <div class="nav-group">
+            <div class="nav-group-title">Execution Group</div>
+            <!-- File server Source -->
+            <div class="sub-group-head"><i class="fas fa-folder-open"></i> File server Source</div>
+            <ul class="nav-sub">
+                <li><a href="serverConfig.html" class="navlinks" data-page="serverConfig.html"><i class="fas fa-server"></i> Server Configuration</a></li>
+                <!--<li><a href="userFieldConfig.html" data-page="userFieldConfig.html"><i class="fas fa-file-alt"></i> Configure Source File</a></li>-->
+            </ul>
+            <!-- DB Source -->
+            <div class="sub-group-head"><i class="fas fa-database"></i> DB Source</div>
+            <ul class="nav-sub">
+                <li><a href="dbConfig.html" class="navlinks" data-page="dbConfig.html"><i class="fas fa-cog"></i> DB Config</a></li>
+                <!--<li><a href="report.html" data-page="report.html"><i class="fas fa-file-code"></i> Config DB File</a></li>-->
+            </ul>
+
+            <div class="sub-group-head"><i class="fas fa-database"></i> Reports</div>
+            <ul class="nav-sub">
+                <!--<li><a href="dbConfig.html" data-page="dbConfig.html"><i class="fas fa-cog"></i> DB Config</a></li>-->
+                <li><a href="report.html" class="navlinks" data-page="report.html"><i class="fas fa-file-code"></i> Reports</a></li>
+            </ul>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Footer status -->
+        <div class="sidebar-footer">
+            <i class="fas fa-circle"></i> All systems operational
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+        <div class="dashboard">
+            <!-- TOP BAR -->
+            <div class="top-bar">
+                <div class="page-title">
+                    <h1>Sender Email Configuration</h1>
+                    <p>Manage SMTP server settings for outgoing emails</p>
+                </div>
+                <div class="user-info">
+                    <div class="user-details">
+                        <div class="user-name" id="username">Jane Reyes</div>
+                        <div class="datetime" id="datetime"></div>
+                    </div>
+                    <div class="avatar">JR</div>
+                </div>
+            </div>
+
+            <!-- Mail Configuration Card -->
+            <div class="card">
+                <div class="card-title">
+                    <i class="fas fa-envelope"></i>
+                    <span>Mail Configuration</span>
+                </div>
+                <form id="smtpForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>SMTP Host *</label>
+                            <input type="text" id="smtpHost" placeholder="smtp.example.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Port *</label>
+                            <input type="number" id="smtpPort" placeholder="587" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Username *</label>
+                            <input type="text" id="smtpUsername" placeholder="username" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Password *</label>
+                            <input type="password" id="smtpPassword" placeholder="Password" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Encoding</label>
+                            <input type="text" id="smtpEncoding" placeholder="UTF-8" value="UTF-8">
+                        </div>
+                        <div class="form-group full-width toggle-group">
+                            <label>SMTP Auth</label>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="smtpAuth" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div class="form-group full-width toggle-group">
+                            <label>STARTTLS</label>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="starttls">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div class="form-group full-width toggle-group">
+                            <label>Active</label>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="active">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn-secondary" id="cancelFormBtn">Cancel</button>
+                        <button type="submit" class="btn-primary" id="saveConfigBtn">Save Configuration</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Existing Configurations Card -->
+            <div class="card">
+                <div class="card-title">
+                    <i class="fas fa-list"></i>
+                    <span>Existing Configurations</span>
+                </div>
+                <div id="configsList">
+                    <!-- dynamic table -->
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<script>
+    // ---------- STORAGE KEY ----------
+    const STORAGE_KEY = 'senderEmailConfigs';
+    let configs = [];
+
+    // ---------- HELPER: Load from localStorage ----------
+    function loadConfigs() {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (saved) {
+            try {
+                configs = JSON.parse(saved);
+            } catch(e) {}
+        }
+        if (!configs.length) {
+            // demo data
+            configs = [
+                {
+                    id: 1,
+                    smtpHost: 'apmosysuat1.com',
+                    smtpPort: 587,
+                    username: 'k.annamalai',
+                    password: 'demo123',
+                    encoding: 'UTF-8',
+                    smtpAuth: true,
+                    starttls: true,
+                    active: false
+                }
+            ];
+            saveConfigs();
+        }
+        renderConfigsTable();
+    }
+
+    function saveConfigs() {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(configs));
+    }
+
+    // ---------- RENDER TABLE ----------
+    function renderConfigsTable() {
+        const container = document.getElementById('configsList');
+        if (!configs.length) {
+            container.innerHTML = '<div class="no-data">No configurations yet. Create one above.</div>';
+            return;
+        }
+        const table = document.createElement('table');
+        table.className = 'actions-table';
+        table.innerHTML = `
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Host:Port</th>
+                    <th>Status</th>
+                    <th style="width:100px">Actions</th>
+                </thead>
+            <tbody>
+                ${configs.map(config => `
+                    <tr>
+                        <td>${escapeHtml(config.username)}</td>
+                        <td>${escapeHtml(config.smtpHost)} : ${config.smtpPort}</td>
+                        <td><span class="status-badge ${config.active ? 'active' : 'inactive'}">${config.active ? 'Active' : 'Inactive'}</span></td>
+                        <td class="action-buttons">
+                            <button class="action-btn-icon edit" data-id="${config.id}"><i class="fas fa-edit"></i></button>
+                            <button class="action-btn-icon activate" data-id="${config.id}"><i class="fas fa-power-off"></i></button>
+                            <button class="action-btn-icon delete" data-id="${config.id}"><i class="fas fa-trash-alt"></i></button>
+                        </td>
+                    </tr>
+                `).join('')}
+            </tbody>
+        `;
+        container.innerHTML = '';
+        container.appendChild(table);
+        // attach event listeners
+        document.querySelectorAll('.edit').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const id = parseInt(btn.dataset.id);
+                editConfig(id);
+            });
+        });
+        document.querySelectorAll('.activate').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const id = parseInt(btn.dataset.id);
+                toggleActive(id);
+            });
+        });
+        document.querySelectorAll('.delete').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const id = parseInt(btn.dataset.id);
+                if (confirm('Delete this configuration?')) {
+                    configs = configs.filter(c => c.id !== id);
+                    saveConfigs();
+                    renderConfigsTable();
+                    if (document.getElementById('editId').value) {
+                        // if editing, clear form
+                        document.getElementById('smtpForm').reset();
+                        document.getElementById('editId').value = '';
+                    }
+                }
+            });
+        });
+    }
+
+    // ---------- EDIT CONFIGURATION ----------
+    let editId = null;
+    function editConfig(id) {
+        const config = configs.find(c => c.id === id);
+        if (config) {
+            document.getElementById('smtpHost').value = config.smtpHost;
+            document.getElementById('smtpPort').value = config.smtpPort;
+            document.getElementById('smtpUsername').value = config.username;
+            document.getElementById('smtpPassword').value = config.password;
+            document.getElementById('smtpEncoding').value = config.encoding || 'UTF-8';
+            document.getElementById('smtpAuth').checked = config.smtpAuth;
+            document.getElementById('starttls').checked = config.starttls;
+            document.getElementById('active').checked = config.active;
+            document.getElementById('editId').value = config.id;
+            // scroll to form
+            document.querySelector('.card').scrollIntoView({ behavior: 'smooth' });
+        }
+    }
+
+    // ---------- TOGGLE ACTIVE (only one active at a time) ----------
+    function toggleActive(id) {
+        const targetConfig = configs.find(c => c.id === id);
+        if (!targetConfig) return;
+        // If it's already active, do nothing (or allow deactivate? but typical: one active at a time)
+        if (!targetConfig.active) {
+            // deactivate all others
+            configs.forEach(c => c.active = false);
+            targetConfig.active = true;
+            saveConfigs();
+            renderConfigsTable();
+        }
+        // Optionally, if you want to allow deactivation, you could add else if (targetConfig.active) { targetConfig.active = false; saveConfigs(); renderConfigsTable(); }
+        // but the user requested "active and edit btn" – likely activate to make it active, not deactivate.
+        // We'll just allow activating and set others inactive.
+    }
+
+    // ---------- SAVE NEW/EDIT ----------
+    document.getElementById('smtpForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const smtpHost = document.getElementById('smtpHost').value.trim();
+        const smtpPort = parseInt(document.getElementById('smtpPort').value);
+        const username = document.getElementById('smtpUsername').value.trim();
+        const password = document.getElementById('smtpPassword').value;
+        const encoding = document.getElementById('smtpEncoding').value.trim();
+        const smtpAuth = document.getElementById('smtpAuth').checked;
+        const starttls = document.getElementById('starttls').checked;
+        const active = document.getElementById('active').checked;
+        const editIdInput = document.getElementById('editId');
+        const existingId = editIdInput ? parseInt(editIdInput.value) : null;
+
+        if (!smtpHost || !smtpPort || !username || !password) {
+            alert('Please fill all required fields.');
+            return;
+        }
+
+        if (existingId) {
+            // update existing
+            const index = configs.findIndex(c => c.id === existingId);
+            if (index !== -1) {
+                configs[index] = {
+                    ...configs[index],
+                    smtpHost,
+                    smtpPort,
+                    username,
+                    password,
+                    encoding,
+                    smtpAuth,
+                    starttls,
+                    active
+                };
+            }
+        } else {
+            // add new
+            const newId = configs.length ? Math.max(...configs.map(c => c.id)) + 1 : 1;
+            const newConfig = {
+                id: newId,
+                smtpHost,
+                smtpPort,
+                username,
+                password,
+                encoding,
+                smtpAuth,
+                starttls,
+                active
+            };
+            configs.push(newConfig);
+        }
+        saveConfigs();
+        renderConfigsTable();
+        // reset form
+        document.getElementById('smtpForm').reset();
+        document.getElementById('editId').value = '';
+        // set default encoding to UTF-8
+        document.getElementById('smtpEncoding').value = 'UTF-8';
+        alert('Configuration saved!');
+    });
+
+    // Cancel button: clear form and edit ID
+    document.getElementById('cancelFormBtn').addEventListener('click', () => {
+        document.getElementById('smtpForm').reset();
+        document.getElementById('editId').value = '';
+        document.getElementById('smtpEncoding').value = 'UTF-8';
+    });
+
+    // Add hidden field for edit tracking
+    const hiddenEdit = document.createElement('input');
+    hiddenEdit.type = 'hidden';
+    hiddenEdit.id = 'editId';
+    hiddenEdit.value = '';
+    document.getElementById('smtpForm').appendChild(hiddenEdit);
+
+    // Helper
+    function escapeHtml(str) {
+        if (!str) return '';
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
+    }
+
+    // Date/Time for top bar
+    function updateDateTime() {
+        const now = new Date();
+        const formatted = now.toLocaleString('en-US', { 
+            weekday: 'short', year: 'numeric', month: 'short', day: 'numeric',
+            hour: '2-digit', minute: '2-digit', second: '2-digit'
+        });
+        document.getElementById('datetime').innerText = formatted;
+    }
+
+    // Initialize
+    loadConfigs();
+    updateDateTime();
+    setInterval(updateDateTime, 1000);
+</script>
+</body>
+</html>

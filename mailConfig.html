@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DataAArch · Mail Configuration</title>
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f0f5fa;
+            color: #1e293b;
+        }
+
+        /* ========== LAYOUT WITH SIDEBAR ========== */
+        .app-layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* ========== SIDEBAR (exact match to previous) ========== */
+        .sidebar {
+            width: 280px;
+            background: #ffffff;
+            box-shadow: 2px 0 16px rgba(0, 20, 30, 0.06);
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid #e6edf4;
+            height: 100vh;
+            position: sticky;
+            top: 0;
+            overflow-y: auto;
+            padding: 2rem 1rem 1.5rem 1.2rem;
+        }
+
+        .sidebar-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 2.2rem;
+            padding-left: 0.4rem;
+        }
+
+        .sidebar-logo i {
+            font-size: 2rem;
+            color: #1f4e85;
+        }
+
+        .sidebar-logo span {
+            font-weight: 600;
+            font-size: 1.4rem;
+            color: #0b2d4f;
+            letter-spacing: -0.3px;
+        }
+
+        .nav-group {
+            margin-bottom: 2rem;
+        }
+
+        .nav-group-title {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            color: #7b91aa;
+            padding: 0 0.8rem 0.5rem 0.8rem;
+            border-bottom: 1px solid #eaf0f7;
+            margin-bottom: 0.6rem;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 0.7rem 1rem;
+            margin: 2px 0;
+            border-radius: 12px;
+            color: #2f4b6e;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.15s ease;
+            cursor: default;
+        }
+
+        .nav-item i {
+            width: 22px;
+            font-size: 1.2rem;
+            color: #6f8db0;
+        }
+
+        .nav-item.active {
+            background: #e9f2fc;
+            color: #0c2d4e;
+            font-weight: 600;
+        }
+
+        .nav-item.active i {
+            color: #1f4e85;
+        }
+
+        .nav-item:hover:not(.active) {
+            background: #f5faff;
+            color: #1a3b5c;
+        }
+
+        .sub-group-head {
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: #1b3d60;
+            padding: 0.7rem 1rem 0.2rem 2.2rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .sub-group-head i {
+            font-size: 0.9rem;
+            color: #557ca5;
+            width: 20px;
+        }
+
+        .nav-sub {
+            list-style: none;
+            margin-left: 2rem;
+            padding-left: 0.5rem;
+            border-left: 1px dashed #cdddec;
+            margin-bottom: 0.8rem;
+        }
+
+        .nav-sub li {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0.55rem 1rem 0.55rem 0.8rem;
+            font-size: 0.9rem;
+            color: #456786;
+            border-radius: 10px;
+        }
+
+        .nav-sub li:hover {
+            background: #f4f9ff;
+            color: #1c3e60;
+        }
+
+        .divider {
+            height: 1px;
+            background: linear-gradient(to right, #dee9f2, transparent);
+            margin: 0.8rem 0 1.2rem 0;
+        }
+
+        .sidebar-footer {
+            margin-top: auto;
+            font-size: 0.8rem;
+            color: #8da2be;
+            padding: 1rem 0.8rem 0.2rem;
+            border-top: 1px solid #eaf0f8;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .sidebar-footer i {
+            font-size: 0.55rem;
+            color: #3ba55d;
+        }
+
+        /* ========== MAIN CONTENT ========== */
+        .main-content {
+            flex: 1;
+            overflow-x: auto;
+        }
+
+        .dashboard {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1.8rem 2rem;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .page-title h1 {
+            font-weight: 700;
+            font-size: 2rem;
+            color: #0b2b4f;
+            letter-spacing: -0.02em;
+        }
+
+        .page-title p {
+            color: #4a5a72;
+            font-size: 0.9rem;
+            margin-top: 4px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            background: white;
+            padding: 0.5rem 1.5rem 0.5rem 1rem;
+            border-radius: 60px;
+            box-shadow: 0 10px 20px -10px rgba(0,32,64,0.15);
+        }
+
+        .user-details {
+            text-align: right;
+        }
+
+        .user-name {
+            font-weight: 700;
+            color: #0b2b4f;
+        }
+
+        .datetime {
+            font-size: 0.8rem;
+            color: #5e7392;
+        }
+
+        .avatar {
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            background: linear-gradient(145deg, #0b2b4f, #1e4a7a);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        /* ========== TWO COLUMN LAYOUT ========== */
+        .config-container {
+            display: grid;
+            grid-template-columns: 1fr 1.8fr;
+            gap: 2rem;
+        }
+
+        @media (max-width: 900px) {
+            .config-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ========== CARD STYLES ========== */
+        .card {
+            background: white;
+            border-radius: 28px;
+            padding: 1.5rem 1.8rem;
+            box-shadow: 0 20px 30px -12px rgba(11,43,79,0.08);
+            border: 1px solid #eaf0f8;
+            margin-bottom: 2rem;
+        }
+        .card:last-child {
+            margin-bottom: 0;
+        }
+        .card-title {
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: #1c3f5c;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            border-left: 3px solid #1e4a7a;
+            padding-left: 0.8rem;
+        }
+        .card-title i {
+            color: #1e4a7a;
+            font-size: 1.2rem;
+        }
+
+        /* ========== USER LIST (DRAG & DROP) ========== */
+        .drag-instruction {
+            font-size: 0.7rem;
+            color: #8aa0bc;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        .user-list {
+            list-style: none;
+            max-height: 380px;
+            overflow-y: auto;
+        }
+        .user-list li {
+            background: #f8fcff;
+            border: 1px solid #e2ebf6;
+            border-radius: 16px;
+            padding: 0.8rem 1rem;
+            margin-bottom: 0.6rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            cursor: grab;
+            transition: all 0.2s;
+        }
+        .user-list li:active {
+            cursor: grabbing;
+        }
+        .user-list li.dragging {
+            opacity: 0.4;
+            cursor: grabbing;
+        }
+        .user-list li.drag-over {
+            border: 1px dashed #1e4a7a;
+            background: #eef4ff;
+        }
+        .drag-handle {
+            color: #7b98b3;
+            font-size: 1rem;
+            cursor: grab;
+        }
+        .user-info {
+            flex: 1;
+            font-weight: 500;
+            color: #1f3a5f;
+        }
+        .user-email {
+            font-size: 0.75rem;
+            color: #7b98b3;
+            margin-top: 0.2rem;
+        }
+
+        /* ========== FORM STYLES ========== */
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: #4f6582;
+            margin-bottom: 0.4rem;
+            letter-spacing: 0.3px;
+        }
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            background: #f8fcff;
+            border: 1px solid #dde7f0;
+            border-radius: 20px;
+            padding: 0.7rem 1rem;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            outline: none;
+            transition: all 0.2s;
+        }
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #1e4a7a;
+            box-shadow: 0 0 0 3px rgba(30,74,122,0.1);
+        }
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .checkbox-group label {
+            font-weight: 500;
+            text-transform: none;
+            margin-bottom: 0;
+        }
+        .btn-primary {
+            background: #1e4a7a;
+            color: white;
+            border: none;
+            border-radius: 40px;
+            padding: 0.7rem 1.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            width: 100%;
+        }
+        .btn-primary:hover {
+            background: #123b66;
+            transform: translateY(-2px);
+        }
+
+        /* ========== TABLE STYLES (matching server config) ========== */
+        .actions-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .actions-table th {
+            text-align: left;
+            padding: 0.8rem 0.5rem 0.8rem 0;
+            font-weight: 600;
+            font-size: 0.75rem;
+            color: #5e7392;
+            text-transform: uppercase;
+            border-bottom: 2px solid #e2ecf9;
+        }
+        .actions-table td {
+            padding: 0.8rem 0.5rem 0.8rem 0;
+            border-bottom: 1px solid #edf2f9;
+            color: #1f3a5f;
+            font-weight: 500;
+            font-size: 0.85rem;
+        }
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+        .action-btn-icon {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #7b98b3;
+            transition: color 0.2s;
+            font-size: 1rem;
+        }
+        .action-btn-icon.edit:hover {
+            color: #1e4a7a;
+        }
+        .action-btn-icon.delete:hover {
+            color: #c44536;
+        }
+        .no-actions {
+            text-align: center;
+            padding: 1.5rem;
+            color: #8aa0bc;
+            font-style: italic;
+        }
+
+        .nav-links{
+            text-decoration: none;
+        }
+
+    </style>
+</head>
+<body>
+<div class="app-layout">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="sidebar-logo">
+            <i class="fas fa-cubes"></i>
+            <span>DataAArch</span>
+        </div>
+
+        <!-- Dashboard -->
+        <a class="nav-item active" href="dashboard.html" data-page="dashboard.html">
+            <i class="fas fa-tachometer-alt"></i> Dashboard
+        </a>
+
+        <!-- Configurations -->
+        <div class="nav-group">
+            <div class="nav-group-title">Configurations</div>
+            <a class="nav-item nav-links" href="userlist3.html" data-page="userlist3.html"><i class="fas fa-user-cog"></i> User Configuration</a>
+            <a class="nav-item nav-links" href="roleConfig.html" data-page="roleConfig.html"><i class="fas fa-user-tag"></i> Role Configuration</a>
+            <a class="nav-item nav-links" href="mailConfig.html" data-page="mailConfig.html"><i class="fas fa-envelope-open-text"></i> Email Template Configuration</a>
+            <a class="nav-item nav-links" href="sanderMailConfig.html" data-page="sanderMailConfig.html"><i class="fas fa-paper-plane"></i> Sender Email Configuration</a>
+        </div>
+
+        <!-- Role Management -->
+        <div class="nav-group">
+            <div class="nav-group-title">Role Management Group</div>
+            <a class="nav-item nav-links" href="roleMan.html" data-page="roleMan.html"><i class="fas fa-shield-alt"></i> Role Management</a>
+        </div>
+
+        <!-- Enterprise Master Data -->
+        <div class="nav-group">
+            <div class="nav-group-title">Enterprise Master Data Group</div>
+            <a class="nav-item nav-links" href="bankingMaster.html" data-page="bankingMaster.html"><i class="fas fa-university"></i> Bank Master</a>
+            <a class="nav-item nav-links" href="userFieldConfig.html" data-page="userFieldConfig.html"><i class="fas fa-users-cog"></i> User Master</a>
+            <a class="nav-item nav-links" href="maskingMaster.html" data-page="maskingMaster.html"><i class="fas fa-mask"></i> Masking Master</a>
+        </div>
+
+        <!-- Execution Group with nested items -->
+        <div class="nav-group">
+            <div class="nav-group-title">Execution Group</div>
+            <!-- File server Source -->
+            <div class="sub-group-head"><i class="fas fa-folder-open"></i> File server Source</div>
+            <ul class="nav-sub">
+                <li><a href="serverConfig.html" class="navlinks" data-page="serverConfig.html"><i class="fas fa-server"></i> Server Configuration</a></li>
+                <!--<li><a href="userFieldConfig.html" data-page="userFieldConfig.html"><i class="fas fa-file-alt"></i> Configure Source File</a></li>-->
+            </ul>
+            <!-- DB Source -->
+            <div class="sub-group-head"><i class="fas fa-database"></i> DB Source</div>
+            <ul class="nav-sub">
+                <li><a href="dbConfig.html" class="navlinks" data-page="dbConfig.html"><i class="fas fa-cog"></i> DB Config</a></li>
+                <!--<li><a href="report.html" data-page="report.html"><i class="fas fa-file-code"></i> Config DB File</a></li>-->
+            </ul>
+
+            <div class="sub-group-head"><i class="fas fa-database"></i> Reports</div>
+            <ul class="nav-sub">
+                <!--<li><a href="dbConfig.html" data-page="dbConfig.html"><i class="fas fa-cog"></i> DB Config</a></li>-->
+                <li><a href="report.html" class="navlinks" data-page="report.html"><i class="fas fa-file-code"></i> Reports</a></li>
+            </ul>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Footer status -->
+        <div class="sidebar-footer">
+            <i class="fas fa-circle"></i> All systems operational
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+        <div class="dashboard">
+            <!-- TOP BAR -->
+            <!--<div class="top-bar">
+                <div class="page-title">
+                    <h1>Mail Config</h1>
+                    <p>Real‑time data ingestion & archival overview</p>
+                </div>
+                <div class="user-info">
+                    <div class="user-details">
+                        <div class="user-name" id="username">Jane Reyes</div>
+                        <div class="datetime" id="datetime"></div>
+                    </div>
+                    <div class="avatar">JR</div>
+                </div>
+            </div>-->
+
+            <div class="config-container">
+                <!-- LEFT COLUMN: Draggable User List -->
+                <div class="card">
+                    <div class="card-title">
+                        <i class="fas fa-users"></i>
+                        <span>Recipient List</span>
+                    </div>
+                    <div class="drag-instruction">
+                        <i class="fas fa-arrows-alt"></i> Drag to reorder
+                    </div>
+                    <ul id="userList" class="user-list"></ul>
+                </div>
+
+                <!-- RIGHT COLUMN: Mail Form + Configured Actions -->
+                <div>
+                    <!-- Mail Configuration Form -->
+                    <div class="card">
+                        <div class="card-title">
+                            <i class="fas fa-envelope"></i>
+                            <span>Email Template</span>
+                        </div>
+                        <form id="mailConfigForm">
+                            <div class="form-group">
+                                <label>Trigger Action *</label>
+                                <select id="triggerAction" required>
+                                    <option value="">Select trigger</option>
+                                    <option value="user_registration">User Registration</option>
+                                    <option value="password_reset">Password Reset</option>
+                                    <option value="account_activation">Account Activation</option>
+                                    <option value="welcome_email">Welcome Email</option>
+                                    <option value="transaction_alert">Transaction Alert</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>To *</label>
+                                <textarea id="to" rows="2" placeholder="Enter email addresses, one per line or comma-separated" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>CC</label>
+                                <textarea id="cc" rows="2" placeholder="Optional CC recipients"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Subject *</label>
+                                <input type="text" id="subject" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Body *</label>
+                                <textarea id="body" rows="4" required></textarea>
+                            </div>
+                            <div class="form-group checkbox-group">
+                                <input type="checkbox" id="includeAttachment">
+                                <label for="includeAttachment">Include Attachment</label>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn-primary">Save Template</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Configured Actions Table -->
+                    <div class="card">
+                        <div class="card-title">
+                            <i class="fas fa-list"></i>
+                            <span>Saved Templates</span>
+                        </div>
+                        <div id="actionsList">
+                            <!-- dynamic table -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<script>
+    // ---------- USER DATA AND DRAG & DROP ----------
+    let users = [
+        { id: 1, name: 'Jane Reyes', email: 'jane.reyes@bank.com' },
+        { id: 2, name: 'John Doe', email: 'john.doe@bank.com' },
+        { id: 3, name: 'Alice Smith', email: 'alice.smith@bank.com' },
+        { id: 4, name: 'Bob Johnson', email: 'bob.johnson@bank.com' },
+        { id: 5, name: 'Carol White', email: 'carol.white@bank.com' }
+    ];
+
+    function loadUserOrder() {
+        const saved = localStorage.getItem('mailConfig_userOrder');
+        if (saved) {
+            const order = JSON.parse(saved);
+            users.sort((a, b) => order.indexOf(a.id) - order.indexOf(b.id));
+        }
+    }
+    function saveUserOrder() {
+        const order = users.map(u => u.id);
+        localStorage.setItem('mailConfig_userOrder', JSON.stringify(order));
+    }
+
+    let dragSrc = null;
+    function renderUserList() {
+        const container = document.getElementById('userList');
+        container.innerHTML = '';
+        users.forEach((user, idx) => {
+            const li = document.createElement('li');
+            li.setAttribute('draggable', 'true');
+            li.setAttribute('data-id', user.id);
+            li.setAttribute('data-index', idx);
+            li.innerHTML = `
+                <i class="fas fa-grip-vertical drag-handle"></i>
+                <div class="user-info">
+                    ${escapeHtml(user.name)}<br>
+                    <span class="user-email">${escapeHtml(user.email)}</span>
+                </div>
+            `;
+            li.addEventListener('dragstart', handleDragStart);
+            li.addEventListener('dragover', handleDragOver);
+            li.addEventListener('dragenter', handleDragEnter);
+            li.addEventListener('dragleave', handleDragLeave);
+            li.addEventListener('drop', handleDrop);
+            li.addEventListener('dragend', handleDragEnd);
+            container.appendChild(li);
+        });
+    }
+
+    function handleDragStart(e) {
+        dragSrc = this;
+        e.dataTransfer.effectAllowed = 'move';
+        this.classList.add('dragging');
+    }
+    function handleDragOver(e) {
+        e.preventDefault();
+        e.dataTransfer.dropEffect = 'move';
+        return false;
+    }
+    function handleDragEnter(e) {
+        this.classList.add('drag-over');
+    }
+    function handleDragLeave(e) {
+        this.classList.remove('drag-over');
+    }
+    function handleDrop(e) {
+        e.stopPropagation();
+        if (dragSrc !== this) {
+            const srcIdx = parseInt(dragSrc.getAttribute('data-index'));
+            const destIdx = parseInt(this.getAttribute('data-index'));
+            if (!isNaN(srcIdx) && !isNaN(destIdx)) {
+                const moved = users.splice(srcIdx, 1)[0];
+                users.splice(destIdx, 0, moved);
+                saveUserOrder();
+                renderUserList();
+            }
+        }
+        return false;
+    }
+    function handleDragEnd(e) {
+        document.querySelectorAll('.user-list li').forEach(li => {
+            li.classList.remove('dragging', 'drag-over');
+        });
+        dragSrc = null;
+    }
+
+    // ---------- MAIL ACTIONS (localStorage) ----------
+    let mailActions = [];
+    const STORAGE_KEY = 'mailConfig_actions';
+
+    function loadMailActions() {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (saved) {
+            try {
+                mailActions = JSON.parse(saved);
+            } catch(e) {}
+        }
+        renderActionsList();
+    }
+    function saveMailActions() {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(mailActions));
+        renderActionsList();
+    }
+    function renderActionsList() {
+        const container = document.getElementById('actionsList');
+        if (!mailActions.length) {
+            container.innerHTML = '<div class="no-actions">No saved templates. Create one above.</div>';
+            return;
+        }
+        const table = document.createElement('table');
+        table.className = 'actions-table';
+        table.innerHTML = `
+            <thead>——
+                <th>Trigger</th>
+                <th>To (first 30 chars)</th>
+                <th>Subject</th>
+                <th style="width:70px">Actions</th>
+            </thead>
+            <tbody>
+                ${mailActions.map((action, idx) => `
+                    <tr>
+                        <td>${escapeHtml(action.trigger)}</td>
+                        <td>${escapeHtml(action.to.substring(0, 30))}${action.to.length > 30 ? '…' : ''}</td>
+                        <td>${escapeHtml(action.subject)}</td>
+                        <td class="action-buttons">
+                            <button class="action-btn-icon edit" data-idx="${idx}"><i class="fas fa-edit"></i></button>
+                            <button class="action-btn-icon delete" data-idx="${idx}"><i class="fas fa-trash-alt"></i></button>
+                        </td>
+                    </tr>
+                `).join('')}
+            </tbody>
+        `;
+        container.innerHTML = '';
+        container.appendChild(table);
+        // attach edit/delete listeners
+        document.querySelectorAll('.edit').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const idx = parseInt(btn.dataset.idx);
+                editAction(idx);
+            });
+        });
+        document.querySelectorAll('.delete').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const idx = parseInt(btn.dataset.idx);
+                if (confirm('Delete this template?')) {
+                    mailActions.splice(idx, 1);
+                    saveMailActions();
+                }
+            });
+        });
+    }
+
+    function editAction(idx) {
+        const action = mailActions[idx];
+        if (action) {
+            document.getElementById('triggerAction').value = action.trigger;
+            document.getElementById('to').value = action.to;
+            document.getElementById('cc').value = action.cc || '';
+            document.getElementById('subject').value = action.subject;
+            document.getElementById('body').value = action.body;
+            document.getElementById('includeAttachment').checked = action.includeAttachment || false;
+            // Remove the old action – it will be re-saved on submit
+            mailActions.splice(idx, 1);
+            saveMailActions();
+            alert('Editing template – make your changes and click Save Template.');
+        }
+    }
+
+    // Form submission
+    document.getElementById('mailConfigForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const trigger = document.getElementById('triggerAction').value;
+        const to = document.getElementById('to').value;
+        const cc = document.getElementById('cc').value;
+        const subject = document.getElementById('subject').value;
+        const body = document.getElementById('body').value;
+        const includeAttachment = document.getElementById('includeAttachment').checked;
+
+        if (!trigger || !to || !subject || !body) {
+            alert('Please fill all required fields.');
+            return;
+        }
+
+        const newAction = {
+            trigger,
+            to,
+            cc,
+            subject,
+            body,
+            includeAttachment,
+            created: new Date().toISOString()
+        };
+        mailActions.push(newAction);
+        saveMailActions();
+
+        // Reset form (optional)
+        document.getElementById('mailConfigForm').reset();
+        alert('Mail template saved!');
+    });
+
+    // Helper
+    function escapeHtml(str) {
+        if (!str) return '';
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
+    }
+
+    // Date/Time for top bar
+    function updateDateTime() {
+        const now = new Date();
+        const formatted = now.toLocaleString('en-US', { 
+            weekday: 'short', year: 'numeric', month: 'short', day: 'numeric',
+            hour: '2-digit', minute: '2-digit', second: '2-digit'
+        });
+        document.getElementById('datetime').innerText = formatted;
+    }
+
+    // Initialize
+    loadUserOrder();
+    renderUserList();
+    loadMailActions();
+    updateDateTime();
+    setInterval(updateDateTime, 1000);
+</script>
+</body>
+</html>
